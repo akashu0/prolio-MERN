@@ -12,6 +12,8 @@ import { userRegisterValidationSchema } from "../../util/validation";
 function SignupPage() {
   const navigate = useNavigate();
 
+  const apiURL = process.env.Base_URL;
+
   const {
     register,
     handleSubmit,
@@ -23,7 +25,7 @@ function SignupPage() {
   const submitHandler = async (formData) => {
     if (formData) {
       axios
-        .post("http://localhost:5000/api/auth/register", formData)
+        .post(`${apiURL}/auth/register`, formData)
         .then((res) => {
           console.log(res);
           toast.success("Sign Up Success");
