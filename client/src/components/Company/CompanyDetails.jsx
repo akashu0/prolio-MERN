@@ -5,6 +5,16 @@ import UploadSection from "../Re-use/UploadSection";
 
 function CompanyDetails() {
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Function to handle form submission
+  const handleFormSubmit = (formData) => {
+    console.log("Form submitted:", formData);
+    // Logic to move to the next step
+    setCurrentIndex((prevIndex) => prevIndex + 1);
+  };
+  const handleBack = () => {
+    setCurrentIndex((prevIndex) => prevIndex - 1); // Move back to previous step
+  };
   const [data, setData] = useState([
     {
       description: "Company Details",
@@ -31,10 +41,10 @@ function CompanyDetails() {
         </span>
         <div className="flex justify-between items-center px-20 py-3 rounded-md ">
           {data.map((item, index) => (
-            <div className="w-1/5 mx-10">
+            <div key={index} className="w-1/5 mx-10">
               <div
                 className={`bg-gray-400 rounded-full h-2 mb-2 ${
-                  index === currentIndex ? "bg-blue-500 " : ""
+                  index === currentIndex ? "bg-red-900 " : ""
                 }`}
               ></div>
               <span className={`block text-start text-sm `}>
@@ -47,11 +57,11 @@ function CompanyDetails() {
           ))}
         </div>
       </div>
-      {currentIndex === 0 && <CompanyForm />}
-      {currentIndex === 1 && <ContactInfo />}
+      {currentIndex === 0 && <CompanyForm onSubmit={handleFormSubmit} />}
+      {currentIndex === 1 && <ContactInfo onBack={handleBack} />}
       {currentIndex === 2 && <UploadSection />}
 
-      <div className="mt-auto flex justify-between px-32">
+      {/* <div className="mt-auto flex justify-between px-32">
         {currentIndex !== 0 && (
           <button
             className="w-48 mt-5  h-10  border border-gray-600"
@@ -73,7 +83,7 @@ function CompanyDetails() {
         >
           Save and Continue
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }

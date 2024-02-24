@@ -1,15 +1,13 @@
 // formSlice.js
 import { createSlice } from "@reduxjs/toolkit";
-import persistConfig from "./persistConfig";
-import { persistReducer } from "redux-persist";
 
 const initialState = {
   formData: {
     companyName: "",
     registrationNumber: "",
     totalEmployees: "",
-    ownerName: "",
-    establishmentYear: "",
+    OwnerName: "",
+    yearOfEstablishment: "",
     businessType: "",
   },
 };
