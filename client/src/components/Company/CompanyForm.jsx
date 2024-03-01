@@ -54,7 +54,8 @@ function CompanyForm({ onSubmit }) {
               }}
               className="w-full h-9 bg-white text-sm px-3 mt-2 focus:outline-none"
             />
-            {errors.companyName && (
+
+            {!formData.companyName.length && errors.companyName && (
               <p className="text-red-500 text-sm">
                 {errors.companyName.message}
               </p>
@@ -76,11 +77,12 @@ function CompanyForm({ onSubmit }) {
               }}
               className="w-full h-9 bg-white text-sm px-3 mt-2 focus:outline-none"
             />
-            {errors.registrationNumber && (
-              <p className="text-red-500 text-sm">
-                {errors.registrationNumber.message}
-              </p>
-            )}
+            {!formData.registrationNumber.length &&
+              errors.registrationNumber && (
+                <p className="text-red-500 text-sm">
+                  {errors.registrationNumber.message}
+                </p>
+              )}
           </div>
           <div className="flex flex-col mt-3">
             <label className="font-semibold text-sm">Total Employees </label>
@@ -98,7 +100,7 @@ function CompanyForm({ onSubmit }) {
               <option value="200-300">200-300</option>
               <option value="300+">300 and above</option>
             </select>
-            {errors.totalEmployees && (
+            {!formData.totalEmployees.length && errors.totalEmployees && (
               <p className="text-red-500 text-sm">
                 {errors.totalEmployees.message}
               </p>
@@ -119,7 +121,7 @@ function CompanyForm({ onSubmit }) {
                 dispatch(updateFormData({ OwnerName: e.target.value }));
               }}
             />
-            {errors.OwnerName && (
+            {!formData.OwnerName.length && errors.OwnerName && (
               <p className="text-red-500 text-sm">{errors.OwnerName.message}</p>
             )}
           </div>
@@ -145,11 +147,12 @@ function CompanyForm({ onSubmit }) {
                 </option>
               ))}
             </select>
-            {errors.yearOfEstablishment && (
-              <p className="text-red-500 text-sm">
-                {errors.yearOfEstablishment.message}
-              </p>
-            )}
+            {!formData.yearOfEstablishment.length &&
+              errors.yearOfEstablishment && (
+                <p className="text-red-500 text-sm">
+                  {errors.yearOfEstablishment.message}
+                </p>
+              )}
           </div>
           <div className="flex flex-col mt-3">
             <label className="font-semibold text-sm"> Business Type</label>
@@ -163,7 +166,7 @@ function CompanyForm({ onSubmit }) {
               }}
               className="w-full h-9 bg-white text-sm px-3 mt-2 focus:outline-none"
             />
-            {errors.businessType && (
+            {!formData.businessType.length && errors.businessType && (
               <p className="text-red-500 text-sm">
                 {errors.businessType.message}
               </p>

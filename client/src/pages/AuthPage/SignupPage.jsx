@@ -12,7 +12,7 @@ import { userRegisterValidationSchema } from "../../util/validation";
 function SignupPage() {
   const navigate = useNavigate();
 
-  const apiURL = process.env.Base_URL;
+  const apiURL = "http://localhost:5000/api";
 
   const {
     register,
@@ -30,7 +30,7 @@ function SignupPage() {
           console.log(res);
           toast.success("Sign Up Success");
           setTimeout(() => {
-            navigate("/login");
+            navigate("/admin/login");
           }, 2000);
         })
         .catch((err) => {
@@ -144,7 +144,7 @@ function SignupPage() {
               Already have an account ?
               <Link
                 className="underline text-blue-600 hover:text-blue-800 font-semibold px-2"
-                to="/login"
+                to="/admin/login"
               >
                 Sign In
               </Link>

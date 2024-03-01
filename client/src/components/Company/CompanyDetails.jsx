@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import CompanyForm from "../Re-use/CompanyForm";
-import ContactInfo from "../Re-use/ContactInfo";
-import UploadSection from "../Re-use/UploadSection";
+import CompanyForm from "./CompanyForm";
+import ContactInfo from "./ContactInfo";
+import UploadSection from "./UploadSection";
+import ConfirmPage from "./ConfirmPage";
 
 function CompanyDetails() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // Function to handle form submission
-  const handleFormSubmit = (formData) => {
-    console.log("Form submitted:", formData);
+  const handleFormSubmit = () => {
+    // console.log("Form submitted:", formData);
     // Logic to move to the next step
     setCurrentIndex((prevIndex) => prevIndex + 1);
   };
@@ -44,8 +45,8 @@ function CompanyDetails() {
             <div key={index} className="w-1/5 mx-10">
               <div
                 className={`bg-gray-400 rounded-full h-2 mb-2 ${
-                  index === currentIndex ? "bg-red-900 " : ""
-                }`}
+                  index === currentIndex ? "bg-blue-700 " : ""
+                } ${index < currentIndex ? "bg-blue-700" : ""}`}
               ></div>
               <span className={`block text-start text-sm `}>
                 STEP {index + 1}
@@ -58,32 +59,13 @@ function CompanyDetails() {
         </div>
       </div>
       {currentIndex === 0 && <CompanyForm onSubmit={handleFormSubmit} />}
-      {currentIndex === 1 && <ContactInfo onBack={handleBack} />}
-      {currentIndex === 2 && <UploadSection />}
-
-      {/* <div className="mt-auto flex justify-between px-32">
-        {currentIndex !== 0 && (
-          <button
-            className="w-48 mt-5  h-10  border border-gray-600"
-            onClick={() => {
-              setCurrentIndex((prev) => prev - 1);
-            }}
-          >
-            Back
-          </button>
-        )}
-
-        <div className="flex-grow"></div>
-
-        <button
-          className="w-48 mt-5 text-white h-10 bg-blue-950"
-          onClick={() => {
-            setCurrentIndex((prev) => prev + 1);
-          }}
-        >
-          Save and Continue
-        </button>
-      </div> */}
+      {currentIndex === 1 && (
+        <ContactInfo onSubmit={handleFormSubmit} onBack={handleBack} />
+      )}
+      {currentIndex === 2 && (
+        <UploadSection onSubmit={handleFormSubmit} onBack={handleBack} />
+      )}
+      {currentIndex === 3 && <ConfirmPage onBack={handleBack} />}
     </div>
   );
 }

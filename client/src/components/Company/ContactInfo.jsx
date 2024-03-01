@@ -1,20 +1,64 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import { updateContactInfo } from "../../store/formSlice";
+import { contactInfo } from "../../util/formvalidation";
+import { useDispatch, useSelector } from "react-redux";
 
-function ContactInfo({ onBack }) {
+function ContactInfo({ onBack, onSubmit }) {
   const apiURL = "http://localhost:5000/api"; // process.env.Base_URL;
 
+  const dispatch = useDispatch();
+  // Select formData from the Redux store
+  const formData = useSelector((state) => state.form.contactInfo);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(contactInfo),
+  });
+
   const [data, setData] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState(""); // Define selectedCountry state
-  const [selectedState, setSelectedState] = useState(""); // Define selectedState state
-  const [selectedCity, setSelectedCity] = useState(""); // Define selectedCity state
-  const [selectedPostalCode, setSelectedPostalCode] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState(formData.country); // Define selectedCountry state
+  const [selectedState, setSelectedState] = useState(formData.state); // Define selectedState state
+  const [selectedCity, setSelectedCity] = useState(formData.city); // Define selectedCity state
+  const [selectedPostalCode, setSelectedPostalCode] = useState(
+    formData.pincode
+  );
+
+  // Update state values when Redux store values change
+  useEffect(() => {
+    setSelectedCountry(formData.country);
+    setSelectedState(formData.state);
+    setSelectedCity(formData.city);
+    setSelectedPostalCode(formData.pincode);
+  }, [formData]);
+
+  const handleCountryChange = (e) => {
+    setSelectedCountry(e.target.value);
+    dispatch(updateContactInfo({ country: e.target.value }));
+  };
+  const handleStateChange = (e) => {
+    setSelectedState(e.target.value);
+    dispatch(updateContactInfo({ state: e.target.value }));
+  };
+  const handleCityChange = (e) => {
+    setSelectedCity(e.target.value);
+    dispatch(updateContactInfo({ city: e.target.value }));
+  };
+  const handlePostalCodeChange = (e) => {
+    setSelectedPostalCode(e.target.value);
+    dispatch(updateContactInfo({ pincode: e.target.value }));
+  };
 
   const getPincode = () => {
     axios
       .get(`${apiURL}/superAdmin/getAllPincode`)
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setData(res.data);
       })
       .catch((err) => {
@@ -22,27 +66,15 @@ function ContactInfo({ onBack }) {
       });
   };
 
+  const submitHandler = async (formData) => {
+    console.log(formData);
+    dispatch(updateContactInfo(formData)); //  Dispatch the updateFormData action
+    onSubmit();
+  };
+
   useEffect(() => {
     getPincode();
   }, []);
-
-  // Event handler for country dropdown change
-  const handleCountryChange = (e) => {
-    setSelectedCountry(e.target.value);
-  };
-
-  // Event handler for state dropdown change
-  const handleStateChange = (e) => {
-    setSelectedState(e.target.value);
-  };
-
-  // Event handler for city dropdown change
-  const handleCityChange = (e) => {
-    setSelectedCity(e.target.value);
-  };
-  const handlePostalCodeChange = (e) => {
-    setSelectedPostalCode(e.target.value);
-  };
 
   return (
     <div className="px-28 w-full flex flex-col ">
@@ -55,7 +87,7 @@ function ContactInfo({ onBack }) {
         </span>
       </div>
 
-      <form className=" mt-5">
+      <form onSubmit={handleSubmit(submitHandler)} className=" mt-5">
         <div className="flex">
           <div className="w-1/2 flex flex-col mx-5">
             <div className="flex flex-col ">
@@ -64,23 +96,48 @@ function ContactInfo({ onBack }) {
               </label>
               <input
                 type="text"
+                value={formData.companyEmail}
                 placeholder="Enter your company name"
+                {...register("companyEmail")}
+                onChange={(e) => {
+                  dispatch(updateContactInfo({ companyEmail: e.target.value }));
+                }}
                 className="w-full h-9 bg-white text-sm px-3 mt-2 focus:outline-none"
               />
+              {!formData.companyEmail.length && errors.companyEmail && (
+                <p className="text-red-500 text-sm">
+                  {errors.companyEmail.message}
+                </p>
+              )}
             </div>
             <div className="flex flex-col mt-3">
               <label className="font-semibold text-sm">Address Line 1</label>
               <input
                 type="text"
                 placeholder="Enter your registration number"
+                value={formData.address1}
+                {...register("address1")}
+                onChange={(e) => {
+                  dispatch(updateContactInfo({ address1: e.target.value }));
+                }}
                 className="w-full h-9 bg-white text-sm px-3 mt-2 focus:outline-none"
               />
+              {!formData.address1.length && errors.address1 && (
+                <p className="text-red-500 text-sm">
+                  {errors.address1.message}
+                </p>
+              )}
             </div>
             <div className="flex mt-3">
               <div className="w-1/2 flex flex-col mr-2">
                 <label className="font-semibold text-sm">Country</label>
                 <select
                   className="w-full h-9 bg-white text-sm px-3 mt-2 focus:outline-none"
+                  value={selectedCountry}
+                  {...register("country")}
+                  // onChange={(e) => {
+                  //   dispatch(updateContactInfo({ country: e.target.value }));
+                  // }}
                   onChange={handleCountryChange}
                 >
                   <option value="">Select Country</option>
@@ -90,12 +147,19 @@ function ContactInfo({ onBack }) {
                     </option>
                   ))}
                 </select>
+                {!formData.country.length && errors.country && (
+                  <p className="text-red-500 text-sm">
+                    {errors.country.message}
+                  </p>
+                )}
               </div>
 
               <div className="w-1/2 flex flex-col ml-2">
                 <label className="font-semibold text-sm">State</label>
                 <select
                   className="w-full h-9 bg-white text-sm px-3 mt-2 focus:outline-none"
+                  {...register("state")}
+                  value={selectedState}
                   onChange={handleStateChange}
                 >
                   <option value="">Select State</option>
@@ -109,6 +173,9 @@ function ContactInfo({ onBack }) {
                       ))
                     )}
                 </select>
+                {!formData.state.length && errors.state && (
+                  <p className="text-red-500 text-sm">{errors.state.message}</p>
+                )}
               </div>
             </div>
             <div className="mt-auto flex justify-start">
@@ -127,14 +194,31 @@ function ContactInfo({ onBack }) {
               <input
                 type="text"
                 placeholder="Enter company owner name"
+                {...register("contactNumber")}
+                value={formData.contactNumber}
+                onChange={(e) => {
+                  dispatch(
+                    updateContactInfo({ contactNumber: e.target.value })
+                  );
+                }}
                 className="w-full h-9 bg-white text-sm px-3 mt-2 focus:outline-none"
               />
+              {!formData.contactNumber.length && errors.contactNumber && (
+                <p className="text-red-500 text-sm">
+                  {errors.contactNumber.message}
+                </p>
+              )}
             </div>
             <div className="flex flex-col mt-3">
               <label className="font-semibold text-sm">Address Line 2</label>
               <input
                 type="text"
                 placeholder="Enter company owner name"
+                {...register("address2")}
+                value={formData.address2}
+                onChange={(e) => {
+                  dispatch(updateContactInfo({ address2: e.target.value }));
+                }}
                 className="w-full h-9 bg-white text-sm px-3 mt-2 focus:outline-none"
               />
             </div>
@@ -144,7 +228,12 @@ function ContactInfo({ onBack }) {
                 <label className="font-semibold text-sm">City</label>
                 <select
                   className="w-full h-9 bg-white text-sm px-3 mt-2 focus:outline-none"
+                  {...register("city")}
+                  value={selectedCity}
                   onChange={handleCityChange}
+                  // onChange={(e) => {
+                  //   dispatch(updateContactInfo({ city: e.target.value }));
+                  // }}
                 >
                   <option value="">Select City</option>
                   {data
@@ -161,13 +250,20 @@ function ContactInfo({ onBack }) {
                         )
                     )}
                 </select>
+                {errors.city && (
+                  <p className="text-red-500 text-sm">{errors.city.message}</p>
+                )}
               </div>
 
               <div className="w-1/2 flex flex-col ml-2">
                 <label className="font-semibold text-sm">Postal Code</label>
                 <select
                   value={selectedPostalCode}
+                  {...register("pincode")}
                   onChange={handlePostalCodeChange}
+                  // onChange={(e) => {
+                  //   dispatch(updateContactInfo({ pincode: e.target.value }));
+                  // }}
                   className="w-full h-9 bg-white text-sm px-3 mt-2 focus:outline-none"
                 >
                   <option value="">Select Postal Code</option>
@@ -189,6 +285,11 @@ function ContactInfo({ onBack }) {
                         )
                     )}
                 </select>
+                {errors.pincode && (
+                  <p className="text-red-500 text-sm">
+                    {errors.pincode.message}
+                  </p>
+                )}
               </div>
             </div>
             <div className="mt-auto flex justify-end">

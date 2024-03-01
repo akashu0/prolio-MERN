@@ -3,14 +3,6 @@ const admin_route = express();
 const path = require("path");
 const multer = require("multer");
 
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, "uploads/"); // Set the destination folder
-//   },
-//   filename: function (req, file, cb) {
-//     cb(null, file.originalname); // Use the original filename
-//   },
-// });
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(__dirname, "../uploads"), function (err, success) {
@@ -38,7 +30,7 @@ const companyController = require("../controllers/companyController");
 
 admin_route.post(
   "/createNewCompany",
-  upload.array("documents"),
+  // upload.array("documents"),
   companyController.registerNewCompany
 );
 

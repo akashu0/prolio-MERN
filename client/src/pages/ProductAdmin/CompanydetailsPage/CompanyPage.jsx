@@ -1,6 +1,6 @@
 import React from "react";
-import SimpleNavbar from "../../components/Navbar/SimpleNavbar";
-import CompanyDetails from "../../components/Company/CompanyDetails";
+import SimpleNavbar from "../../../components/Navbar/SimpleNavbar";
+import CompanyDetails from "../../../components/Company/CompanyDetails";
 
 function CompanyPage() {
   return (

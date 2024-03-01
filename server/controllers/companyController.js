@@ -2,49 +2,29 @@ const CompanyModel = require("../model/companyDetailsModel");
 
 const registerNewCompany = async (req, res) => {
   try {
-    //if array of documents there
-    const arrDocument = [];
-    if (req.files) {
-      for (let i = 0; i < req.files.length; i++) {
-        arrDocument.push(req.files[i].filename);
-      }
-    }
-    const {
-      companyName,
-      OwnerName,
-      registrationNumber,
-      yearOfRegister,
-      businessType,
-      totalEmployees,
-      companyEmail,
-      contactNumber,
-      address,
-      country,
-      state,
-      city,
-      pincode,
-    } = req.body;
+    const { formData, contactData, documentData } = req.body;
 
-    const newCompany = new CompanyModel({
-      companyName,
-      OwnerName,
-      registrationNumber,
-      yearOfRegister,
-      businessType,
-      totalEmployees,
-      companyEmail,
-      contactNumber,
-      address,
-      country,
-      state,
-      city,
-      pincode,
-      documents: arrDocument,
+    const newCompanyDetails = new CompanyModel({
+      companyName: formData.companyName,
+      OwnerName: formData.OwnerName,
+      registrationNumber: formData.registrationNumber,
+      yearOfRegister: formData.yearOfEstablishment,
+      businessType: formData.businessType,
+      totalEmployees: formData.totalEmployees,
+      companyEmail: contactData.companyEmail,
+      contactNumber: contactData.contactNumber,
+      address1: contactData.address1,
+      address2: contactData.address2,
+      country: contactData.country,
+      state: contactData.state,
+      city: contactData.city,
+      pincode: contactData.pincode,
+      documents: documentData.map((item) => item.base64), // Assuming documentData contains base64 strings
     });
-    await newCompany.save();
+    await newCompanyDetails.save();
     res.status(201).json({ message: "Register Successfully" });
   } catch (error) {
-    console.error("Error saving company details:", error);
+    console.error("Error saving company details:", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };

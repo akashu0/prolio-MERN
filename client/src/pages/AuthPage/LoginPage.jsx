@@ -26,7 +26,7 @@ function LoginPage() {
         .post("http://localhost:5000/api/auth/login", formData)
         .then((res) => {
           console.log(res);
-          // navigate("/home");
+          navigate("/admin/addcompany");
         })
         .catch((err) => {
           toast.error("Invalid Credentials");
@@ -94,7 +94,7 @@ function LoginPage() {
               Already have an account ?
               <Link
                 className="underline text-blue-600 hover:text-blue-800 font-semibold px-2"
-                to="/signup"
+                to="/admin/signup"
               >
                 Sign Up
               </Link>

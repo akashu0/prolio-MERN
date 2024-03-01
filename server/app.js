@@ -7,6 +7,7 @@ const userRoute = require("./routes/userRoute");
 const authRoute = require("./routes/authRoute");
 const superAdminRoute = require("./routes/superAdminRoute");
 const adminRoute = require("./routes/adminRoute");
+const categoryRoute = require("./routes/categoryRoutes");
 
 dotenv.config();
 const app = express();
@@ -25,6 +26,7 @@ app.use("/api/user", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/admin", adminRoute);
 app.use("/api/superAdmin", superAdminRoute);
+app.use("/api/category", categoryRoute);
 
 app.listen(5000, () => {
   console.log("Server is started");

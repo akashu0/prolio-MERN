@@ -34,12 +34,14 @@ const companyDetialsSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  address: [
-    {
-      type: String,
-      default: "",
-    },
-  ],
+  address1: {
+    type: String,
+    required: true,
+  },
+  address2: {
+    type: String,
+    required: true,
+  },
   country: {
     type: String,
     required: true,
