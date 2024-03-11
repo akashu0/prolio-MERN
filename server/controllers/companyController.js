@@ -3,6 +3,7 @@ const CompanyModel = require("../model/companyDetailsModel");
 const registerNewCompany = async (req, res) => {
   try {
     const { formData, contactData, documentData } = req.body;
+    console.log();
 
     const newCompanyDetails = new CompanyModel({
       companyName: formData.companyName,

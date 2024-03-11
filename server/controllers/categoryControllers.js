@@ -1,5 +1,4 @@
 const Category = require("../model/category");
-const Item = require("../model/item");
 
 const create_Category = async (req, res) => {
   try {
@@ -167,7 +166,6 @@ const getFields = async (req, res) => {
 module.exports = {
   create_Category,
   getAllCategory,
-  // createItem,
   getCategoryType,
   getCategoryName,
   getSubCategoryName,

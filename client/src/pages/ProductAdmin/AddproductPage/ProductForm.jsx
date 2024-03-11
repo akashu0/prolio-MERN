@@ -5,14 +5,15 @@ import AddProduct from "../../../components/Product/AddProduct";
 import ProductPricing from "../../../components/Product/ProductPricing";
 import B2B from "../../../components/Product/B2B";
 import Social from "../../../components/Product/Social";
+import ProductConfirmPage from "../../../components/Product/ProductConfirmPage";
+
+// import { submitProductDetails } from "../../../store/productSlice";
 
 function ProductForm() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // Function to handle form submission
-  const handleFormSubmit = () => {
-    // console.log("Form submitted:", formData);
-    // Logic to move to the next step
+  const handleFormSubmit = async () => {
     setCurrentIndex((prevIndex) => prevIndex + 1);
   };
 
@@ -46,21 +47,29 @@ function ProductForm() {
           {data.map((item, index) => (
             <div key={index} className="flex-1 mx-10 text-start">
               <div
-                className={`bg-gray-400 rounded-full h-2 mb-2 ${
-                  index === currentIndex ? "bg-blue-700 " : ""
-                } ${index < currentIndex ? "bg-blue-700" : ""}`}
+                className={` rounded-full h-2 mb-2 ${
+                  index === currentIndex
+                    ? "bg-blue-700"
+                    : index < currentIndex
+                    ? "bg-blue-700"
+                    : "bg-gray-400"
+                }`}
               ></div>
               <span
-                className={` h-2 mb-2 block text-xs font-sans ${
-                  index === currentIndex ? "text-blue-700 " : ""
-                } ${index < currentIndex ? "text-blue-700" : ""}`}
+                className={`h-2 mb-2 block text-xs font-sans ${
+                  index === currentIndex || index < currentIndex
+                    ? "text-blue-700"
+                    : ""
+                }`}
               >
                 STEP {index + 1}
               </span>
               <span
-                className={`  block text-xs font-sans ${
-                  index === currentIndex ? "text-blue-700 " : ""
-                } ${index < currentIndex ? "text-blue-700" : ""}`}
+                className={`block text-xs font-sans ${
+                  index === currentIndex || index < currentIndex
+                    ? "text-blue-700"
+                    : ""
+                }`}
               >
                 {item.description}
               </span>
@@ -80,6 +89,7 @@ function ProductForm() {
       {currentIndex === 3 && (
         <Social onSubmit={handleFormSubmit} onBack={handleBack} />
       )}
+      {currentIndex === 4 && <ProductConfirmPage onBack={handleBack} />}
 
       {/* </div> */}
     </div>

@@ -7,8 +7,6 @@ import { contactInfo } from "../../util/formvalidation";
 import { useDispatch, useSelector } from "react-redux";
 
 function ContactInfo({ onBack, onSubmit }) {
-  const apiURL = "http://localhost:5000/api"; // process.env.Base_URL;
-
   const dispatch = useDispatch();
   // Select formData from the Redux store
   const formData = useSelector((state) => state.form.contactInfo);
@@ -20,6 +18,7 @@ function ContactInfo({ onBack, onSubmit }) {
   } = useForm({
     resolver: yupResolver(contactInfo),
   });
+  const apiURL = process.env.REACT_APP_API_URL;
 
   const [data, setData] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(formData.country); // Define selectedCountry state

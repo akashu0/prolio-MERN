@@ -31,6 +31,7 @@ const formSlice = createSlice({
   name: "form",
   initialState,
   reducers: {
+    resetFormState: (state) => initialState,
     updateFormData: (state, action) => {
       state.formData = { ...state.formData, ...action.payload };
     },
@@ -54,6 +55,7 @@ const formSlice = createSlice({
 export const {
   updateFormData,
   updateContactInfo,
+  resetFormState,
   addDocuments,
   removeDocument,
 } = formSlice.actions;

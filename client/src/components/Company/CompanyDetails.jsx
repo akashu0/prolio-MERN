@@ -44,14 +44,18 @@ function CompanyDetails() {
           {data.map((item, index) => (
             <div key={index} className="w-1/5 mx-10">
               <div
-                className={`bg-gray-400 rounded-full h-2 mb-2 ${
-                  index === currentIndex ? "bg-blue-700 " : ""
-                } ${index < currentIndex ? "bg-blue-700" : ""}`}
+                className={` rounded-full h-2 mb-2 ${
+                  index === currentIndex
+                    ? "bg-blue-700"
+                    : index < currentIndex
+                    ? "bg-blue-700"
+                    : "bg-gray-400"
+                }`}
               ></div>
-              <span className={`block text-start text-sm `}>
+              <span className={`block text-start text-xs ${index === currentIndex || index < currentIndex ? "text-blue-700" : ""}`}>
                 STEP {index + 1}
               </span>
-              <span className="block text-start text-sm ">
+              <span className={`block text-start text-sm ${index === currentIndex || index < currentIndex ? "text-blue-700" : ""}`}>
                 {item.description}
               </span>
             </div>

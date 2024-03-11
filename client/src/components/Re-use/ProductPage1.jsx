@@ -21,7 +21,7 @@ const MoreProducts = [
 const ProductPage1 = () => {
   const [data, setData] = useState([]);
 
-  const apiURL = "http://localhost:5000/api";
+  const apiURL = "https://prolio-server-gynp.onrender.com/api";
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -36,7 +36,10 @@ const ProductPage1 = () => {
     fetchData();
   }, []);
   return (
-    <div className="w-full h-max flex bg-slate-200"   style={{  paddingBottom: "50px" }}>
+    <div
+      className="w-full h-max flex bg-slate-200"
+      style={{ paddingBottom: "50px" }}
+    >
       <div className="w-4/5 flex flex-col gap-y-4">
         {/*############ Section 1 ############## */}
         <div className="w-full flex bg-white flex-col px-6 py-3 justify-center items-center gap-4">

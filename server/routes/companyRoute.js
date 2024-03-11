@@ -1,5 +1,5 @@
 const express = require("express");
-const admin_route = express();
+const company_route = express();
 const path = require("path");
 const multer = require("multer");
 
@@ -28,10 +28,10 @@ const upload = multer({
 
 const companyController = require("../controllers/companyController");
 
-admin_route.post(
+company_route.post(
   "/createNewCompany",
   // upload.array("documents"),
   companyController.registerNewCompany
 );
 
-module.exports = admin_route;
+module.exports = company_route;

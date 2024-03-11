@@ -16,7 +16,7 @@ function AdminRoutes() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/addproduct" element={<ProductForm />} />
-      <Route path="/productpage" element={<ProductPage />} />
+      <Route path="/product/:id" element={<ProductPage />} />
     </Routes>
   );
 }

@@ -1,9 +1,46 @@
 import { Icon } from "@iconify-icon/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 function B2B({ onSubmit, onBack }) {
-  const [variation, setVariation] = useState(false);
+  const productId = useSelector((state) => state.productId.productId);
+  const apiURL = process.env.REACT_APP_API_URL;
+
+  const handlerSaveButton = async () => {
+    try {
+      const sections3 = {
+        solicitDealership,
+        prospectiveReseller,
+        description1,
+        description2,
+        opportunities,
+        variationList,
+        authorizedService,
+      };
+
+      const response = await axios.put(
+        `${apiURL}/product/update-sections3/${productId}`,
+        {
+          sections3,
+        }
+      );
+
+      onSubmit();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   const [documents, setDocuments] = useState([{ base64: null }]);
+
+  const [solicitDealership, setSolicitDealership] = useState(""); // State for radio button
+  const [prospectiveReseller, setProspectiveReseller] = useState(""); // State for radio button
+  const [description1, setDescription1] = useState(""); // State for Description 1 textarea
+  const [description2, setDescription2] = useState(""); // State for Description 2 textarea
+  const [opportunities, setOpportunities] = useState(""); // State for Opportunities input field
+  const [variationList, setVariationList] = useState(""); // State for Variation list input field
+  const [authorizedService, setAuthorizedService] = useState(""); // State for Authorized Service textarea
 
   const addDocument = () => {
     // Check if the maximum limit of documents has been reached
@@ -35,9 +72,10 @@ function B2B({ onSubmit, onBack }) {
                 <input
                   type="radio"
                   className="form-radio text-blue-500 bg-white"
-                  name="radio-option"
-                  value="option1"
-                  //   onClick={() => setVariation(true)}
+                  name="solicitDealership"
+                  value="Yes"
+                  checked={solicitDealership === "Yes"}
+                  onChange={(e) => setSolicitDealership(e.target.value)}
                 />
                 <span className="ml-2 bg-white">Yes</span>
               </label>
@@ -45,9 +83,9 @@ function B2B({ onSubmit, onBack }) {
                 <input
                   type="radio"
                   className="form-radio text-blue-500 bg-white"
-                  name="radio-option"
-                  value="option1"
-                  //   onClick={() => setVariation(false)}
+                  value="No"
+                  checked={solicitDealership === "No"}
+                  onChange={(e) => setSolicitDealership(e.target.value)}
                 />
                 <span className="ml-2 bg-white">No</span>
               </label>
@@ -60,9 +98,10 @@ function B2B({ onSubmit, onBack }) {
                 <input
                   type="radio"
                   className="form-radio text-blue-500 bg-white"
-                  name="radio-option"
-                  value="option1"
-                  //   onClick={() => setVariation(true)}
+                  name="prospectiveReseller"
+                  value="Yes"
+                  checked={prospectiveReseller === "Yes"}
+                  onChange={(e) => setProspectiveReseller(e.target.value)}
                 />
                 <span className="ml-2 bg-white">Yes</span>
               </label>
@@ -70,18 +109,21 @@ function B2B({ onSubmit, onBack }) {
                 <input
                   type="radio"
                   className="form-radio text-blue-500 bg-white"
-                  name="radio-option"
-                  value="option1"
-                  //   onClick={() => setVariation(false)}
+                  name="prospectiveReseller"
+                  value="No"
+                  checked={prospectiveReseller === "No"}
+                  onChange={(e) => setProspectiveReseller(e.target.value)}
                 />
                 <span className="ml-2 bg-white">No</span>
               </label>
             </div>
           </div>
           <div className="p-4 bg-white">
-            <p className="bg-white font-semibold">Description 2</p>
+            <p className="bg-white font-semibold">Description 1</p>
             <textarea
               placeholder="Add Description"
+              value={description1}
+              onChange={(e) => setDescription1(e.target.value)}
               className="w-full h-32 text-sm px-3 mt-1 py-2 focus:outline-none border border-gray-300 rounded bg-white"
             ></textarea>
           </div>
@@ -89,6 +131,8 @@ function B2B({ onSubmit, onBack }) {
             <p className="bg-white font-semibold">Description 2</p>
             <textarea
               placeholder="Add Description"
+              value={description2}
+              onChange={(e) => setDescription2(e.target.value)}
               className="w-full h-32 text-sm px-3 mt-1 py-2 focus:outline-none border border-gray-300 rounded bg-white"
             ></textarea>
           </div>
@@ -105,11 +149,13 @@ function B2B({ onSubmit, onBack }) {
                   </label>
                   <input
                     type="text"
+                    value={opportunities}
+                    onChange={(e) => setOpportunities(e.target.value)}
                     placeholder="Opportunities"
                     className="w-full h-9 text-sm px-3 mt-1 focus:outline-none border border-gray-300 rounded-md bg-white"
                   />
                 </div>
-                <div className="flex-1 bg-white">
+                {/* <div className="flex-1 bg-white">
                   <label className="block font-semibold text-sm mb-1 bg-white">
                     Variation list
                   </label>
@@ -118,13 +164,15 @@ function B2B({ onSubmit, onBack }) {
                     placeholder="value"
                     className="w-full h-9 text-sm px-3 mt-1 focus:outline-none border border-gray-300 rounded-md bg-white"
                   />
-                </div>
+                </div> */}
                 <div className="flex-1 bg-white">
                   <label className="block font-semibold text-sm mb-1 bg-white">
                     Variation list
                   </label>
                   <input
                     type="text"
+                    value={variationList}
+                    onChange={(e) => setVariationList(e.target.value)}
                     placeholder="value"
                     className="w-full h-9 text-sm px-3 mt-1 focus:outline-none border border-gray-300 rounded-md bg-white"
                   />
@@ -143,6 +191,8 @@ function B2B({ onSubmit, onBack }) {
             </p>
             <textarea
               placeholder="Add Description"
+              value={authorizedService}
+              onChange={(e) => setAuthorizedService(e.target.value)}
               className="w-full h-16 text-sm px-3 mt-1 py-2 focus:outline-none border border-gray-300 rounded bg-white"
             ></textarea>
           </div>
@@ -218,7 +268,7 @@ function B2B({ onSubmit, onBack }) {
             <button
               type="submit"
               className="w-48 h-10 bg-blue-950 text-white hover:bg-green-500"
-              onClick={onSubmit}
+              onClick={handlerSaveButton}
             >
               Save and Next
             </button>

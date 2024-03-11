@@ -65,7 +65,6 @@ const companyDetialsSchema = new mongoose.Schema({
   documents: [
     {
       type: String,
-      default: "",
     },
   ],
 });

@@ -20,13 +20,15 @@ function LoginPage() {
     resolver: yupResolver(userLoginValidationSchema),
   });
 
+  const apiURL = process.env.REACT_APP_API_URL;
+
   const submitHandler = async (formData) => {
     if (formData) {
       axios
-        .post("http://localhost:5000/api/auth/login", formData)
+        .post(`${apiURL}/auth/login`, formData)
         .then((res) => {
           console.log(res);
-          navigate("/admin/addcompany");
+          navigate("/");
         })
         .catch((err) => {
           toast.error("Invalid Credentials");

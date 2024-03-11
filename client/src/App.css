@@ -2,3 +2,7 @@
 * {
   background-color: rgba(244, 247, 255, 1);
 }
+
+::-webkit-scrollbar {
+  display: none;
+}

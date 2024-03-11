@@ -1,7 +1,11 @@
 import { Icon } from "@iconify-icon/react";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { removeDocument, updateContactInfo } from "../../store/formSlice";
+import {
+  removeDocument,
+  resetFormState,
+  updateContactInfo,
+} from "../../store/formSlice";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,7 +15,7 @@ function ConfirmPage({ onBack }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const apiURL = "http://localhost:5000/api";
+  const apiURL = process.env.REACT_APP_API_URL;
   const formData = useSelector((state) => state.form.formData);
   const contactData = useSelector((state) => state.form.contactInfo);
   const documentData = useSelector((state) => state.form.documents);
@@ -55,7 +59,8 @@ function ConfirmPage({ onBack }) {
           console.log(res);
           toast.success("Company Registered Successfully");
           setIsLoading(false);
-
+          // Dispatch the reset action to clear Redux state
+          dispatch(resetFormState());
           setTimeout(() => {
             navigate("/");
           }, 2000);
@@ -122,9 +127,9 @@ function ConfirmPage({ onBack }) {
                     <input
                       type="text"
                       placeholder=""
-                      value={formData.ownerName}
+                      value={formData.OwnerName}
                       onChange={(e) =>
-                        dispatch(updateFormData({ ownerName: e.target.value }))
+                        dispatch(updateFormData({ OwnerName: e.target.value }))
                       }
                       className="w-60 px-4 bg-white text-sm focus:outline-none"
                     />
@@ -134,9 +139,9 @@ function ConfirmPage({ onBack }) {
                     <input
                       type="text"
                       placeholder=""
-                      value={formData.place}
+                      value={contactData.state}
                       onChange={(e) =>
-                        dispatch(updateFormData({ place: e.target.value }))
+                        dispatch(updateFormData({ state: e.target.value }))
                       }
                       className="w-60 px-4 bg-white text-sm focus:outline-none"
                     />

@@ -12,7 +12,7 @@ import { userRegisterValidationSchema } from "../../util/validation";
 function SignupPage() {
   const navigate = useNavigate();
 
-  const apiURL = "http://localhost:5000/api";
+  const apiURL = process.env.REACT_APP_API_URL
 
   const {
     register,
@@ -27,7 +27,7 @@ function SignupPage() {
       axios
         .post(`${apiURL}/auth/register`, formData)
         .then((res) => {
-          console.log(res);
+       
           toast.success("Sign Up Success");
           setTimeout(() => {
             navigate("/admin/login");
