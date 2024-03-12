@@ -31,7 +31,6 @@ function ProductDetails() {
   // console.log(id)
   const [data, setData] = useState();
 
-  // const apiURL = "https://prolio-server-gynp.onrender.com/api";
   const apiURL = process.env.REACT_APP_API_URL;
   useEffect(() => {
     const fetchData = async () => {
@@ -253,7 +252,7 @@ function ProductDetails() {
 
       {/* </div> */}
       <div
-        className="w-full h-max flex bg-slate-200 px-10 bg-white"
+        className="w-full h-max  bg-white"
         style={{ paddingBottom: "50px" }}
       >
         <div className="w-4/5 flex flex-col gap-y-4">

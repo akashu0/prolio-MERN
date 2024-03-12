@@ -8,9 +8,12 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { userLoginValidationSchema } from "../../util/validation";
+import { setToken } from "../../store/tokenSlice";
+import { useDispatch } from "react-redux";
 
 function LoginPage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -27,7 +30,7 @@ function LoginPage() {
       axios
         .post(`${apiURL}/auth/login`, formData)
         .then((res) => {
-          console.log(res);
+          dispatch(setToken(res.data));
           navigate("/");
         })
         .catch((err) => {

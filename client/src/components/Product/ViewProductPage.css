@@ -1,0 +1,25 @@
+.main-container {
+  height: 100vh;
+  display: flex;
+}
+
+.container-1 {
+  height: 100vh;
+  overflow-y: auto;
+  width: 70%;
+  color: black;
+}
+.container-1::-webkit-scrollbar {
+  display: none;
+}
+
+
+
+.container-2 {
+  height: 100vh;
+  width: 30%;
+  overflow-y: auto;
+}
+.container-2::-webkit-scrollbar {
+    display: none;
+  }

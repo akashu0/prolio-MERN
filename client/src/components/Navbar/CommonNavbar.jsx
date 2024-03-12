@@ -1,23 +1,29 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify-icon/react";
+import { useSelector } from "react-redux";
 
 function CommonNavbar() {
+  const user = useSelector((state) => state.token.user);
+
   const Menus = [
     {
       name: "Home",
       icon: "iconamoon:notification-light",
+      path: "/forum",
     },
-    { name: "notification", icon: "jam:message-alt" },
-    { name: "profile", icon: "bx:user" },
+    { name: "notification", icon: "jam:message-alt", path: "/forum" },
+    { name: "profile", icon: "bx:user",   path: user ? "/profile" : "/admin/login" },
   ];
   return (
     <>
       <nav className="w-full h-16 z-50 fixed flex justify-between bg-blue-900   top-0 left-0">
-        <div className="text-white px-14 bg-blue-900 cursor-pointer flex  py-4 font-serif">
-          <h1 className="text-white  bg-blue-900 cursor-pointer  font-semibold text-3xl  font-serif">
-            Prolio
-          </h1>
+        <div className="text-white px-10 bg-blue-900 cursor-pointer flex  py-4 font-serif">
+          <Link to="/">
+            <h1 className="text-white  bg-blue-900 cursor-pointer  font-semibold text-3xl  font-serif">
+              Prolio
+            </h1>
+          </Link>
           <span className="text-white text-lg bg-blue-900 px-6 py-1">
             {" "}
             Categories
@@ -53,7 +59,7 @@ function CommonNavbar() {
               key={i}
               className="w-9 h-9 rounded-full items-center mt-2 ml-4 pr-2 flex justify-center cursor-pointer"
             >
-              <Link to={menu.name}>
+              <Link to={menu.path}>
                 <Icon
                   className="text-blue-900 text-2xl  w-4 h-4  "
                   icon={menu.icon}
