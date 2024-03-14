@@ -13,7 +13,7 @@ function CommonNavbar() {
       path: "/forum",
     },
     { name: "notification", icon: "jam:message-alt", path: "/forum" },
-    { name: "profile", icon: "bx:user",   path: user ? "/profile" : "/admin/login" },
+    { name: "profile", icon: "bx:user", path: user ? "/profile" : "/login" },
   ];
   return (
     <>
@@ -48,9 +48,11 @@ function CommonNavbar() {
             <path d="M20 20l-4.579-4.579M8 15a7 7 0 100-14 7 7 0 000 14z"></path>
           </svg>
           <div className="ml-12 w-32 h-10 rounded-lg pt-2">
-            <button className="w-full text-blue-900 font-semibold ">
-              Join Prolio
-            </button>
+            <Link to="/joinprolio">
+              <button className="w-full text-blue-900 font-semibold ">
+                Join Prolio
+              </button>
+            </Link>
           </div>
         </div>
         <div className="bg-blue-900 mx-14   flex justify-center items-center">

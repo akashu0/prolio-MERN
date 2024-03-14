@@ -1,7 +1,7 @@
 import React from "react";
 
 function productDetails1({ data }) {
-  console.log(data);
+  // console.log(data);
   return (
     <>
       <div className="w-full flex py-3 bg-white">

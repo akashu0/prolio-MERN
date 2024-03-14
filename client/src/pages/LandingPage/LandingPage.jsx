@@ -3,8 +3,11 @@ import bannerImage from "../../assets/bannerImg.png";
 import image2 from "../../assets/image2.png";
 import axios from "axios";
 import Template from "./Template";
+import { useNavigate } from "react-router-dom";
 
 function LandingPage() {
+  const navigate = useNavigate();
+
   const [banner, setBanner] = useState({
     bannerImage: bannerImage,
   });
@@ -121,6 +124,9 @@ function LandingPage() {
                   {productData.map((product, index) => (
                     <div
                       key={index}
+                      onClick={() => {
+                        navigate(`/viewproduct/${product._id}`);
+                      }}
                       className="mt-5 bg-transparent w-72 min-h-[10rem] rounded-lg shadow-xl   overflow-hidden"
                     >
                       <img
@@ -167,6 +173,9 @@ function LandingPage() {
                   {productData.map((product, index) => (
                     <div
                       key={index}
+                      onClick={() => {
+                        navigate(`/viewproduct/${product._id}`);
+                      }}
                       className="mt-5 bg-transparent w-72 min-h-[10rem] rounded-lg shadow-xl   overflow-hidden"
                     >
                       <img

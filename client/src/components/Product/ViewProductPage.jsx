@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Icon } from "@iconify-icon/react";
 import cross from "../../assets/cross.png";
+import { FiChevronRight } from "react-icons/fi";
 
 function ViewProductPage() {
   const DropDownList = [
@@ -22,6 +23,8 @@ function ViewProductPage() {
   const { id } = useParams();
   // console.log(id)
   const [data, setData] = useState();
+
+  const [moreProducts, setMoreProducts] = useState([]);
 
   const apiURL = process.env.REACT_APP_API_URL;
   useEffect(() => {
@@ -39,28 +42,41 @@ function ViewProductPage() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const apiUrl = `${apiURL}/product/getall-product`;
+    axios
+      .get(apiUrl)
+      .then((response) => {
+        console.log(response.data);
+        setMoreProducts(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  });
+  const [selectedButton, setSelectedButton] = useState(DropDownList[0]);
+  
   const renderComponent = () => {
     switch (selectedButton) {
       case "Product Details":
         return <ProductDetails1 data={data?.sections1 || ""} />;
-      case "Social Media Handles":
-        return <SocialComponent data={data?.sections4 || ""} />;
-      // Add cases for other buttons if needed
-      default:
-        return null;
-    }
-  };
-
-  const [images, setImages] = useState({
-    img1: "https://imgs.search.brave.com/9RrO5zGL9IMRQklxSLZoTUbPC_2fCYDkSi36wt-Cfs8/rs:fit:500:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy90/aHVtYi9iL2I2L0lt/YWdlX2NyZWF0ZWRf/d2l0aF9hX21vYmls/ZV9waG9uZS5wbmcv/NjQwcHgtSW1hZ2Vf/Y3JlYXRlZF93aXRo/X2FfbW9iaWxlX3Bo/b25lLnBuZw",
-    img2: "https://imgs.search.brave.com/9RrO5zGL9IMRQklxSLZoTUbPC_2fCYDkSi36wt-Cfs8/rs:fit:500:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy90/aHVtYi9iL2I2L0lt/YWdlX2NyZWF0ZWRf/d2l0aF9hX21vYmls/ZV9waG9uZS5wbmcv/NjQwcHgtSW1hZ2Vf/Y3JlYXRlZF93aXRo/X2FfbW9iaWxlX3Bo/b25lLnBuZw",
-    img3: "https://imgs.search.brave.com/0UY2qPSV8pWV8YcArj2ir5aPct6MzZDEWbM-FlsvHlM/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNzc5/MzE2NDUvcGhvdG8v/d29tYW4tYW5kLXlv/dW5nLWdpcmwtb3V0/ZG9vcnMtd2l0aC1w/ZW9wbGUtaW4tYmFj/a2dyb3VuZC5qcGc_/cz02MTJ4NjEyJnc9/MCZrPTIwJmM9bG5V/UWZnTHlVZ21HUHR6/NkZzYXRIWVNub3dZ/Xzl3YmRQUXVYZmI4/WDNxQT0",
-    img4: "https://imgs.search.brave.com/G7PMeUgzG1zh75C7cIXIVWlrcnUczSU8lKlLqkCC16w/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTMw/OTMyODgyMy9waG90/by9oZWFkc2hvdC1w/b3J0cmFpdC1vZi1z/bWlsaW5nLW1hbGUt/ZW1wbG95ZWUtaW4t/b2ZmaWNlLmpwZz9z/PTYxMng2MTImdz0w/Jms9MjAmYz1rUHZv/Qm02cUNZelFYTUFu/OUpVdHFMUkVYZTkt/UGxaeU1sOWktaWJh/VnVZPQ",
-  });
-  const [selectedButton, setSelectedButton] = useState(DropDownList[0]);
-
-  const [activeImg, setActiveImage] = useState(images.img1);
-
+        case "Social Media Handles":
+          return <SocialComponent data={data?.sections4 || ""} />;
+          // Add cases for other buttons if needed
+          default:
+            return null;
+          }
+        };
+        
+        const [images, setImages] = useState({
+          img1: "https://imgs.search.brave.com/9RrO5zGL9IMRQklxSLZoTUbPC_2fCYDkSi36wt-Cfs8/rs:fit:500:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy90/aHVtYi9iL2I2L0lt/YWdlX2NyZWF0ZWRf/d2l0aF9hX21vYmls/ZV9waG9uZS5wbmcv/NjQwcHgtSW1hZ2Vf/Y3JlYXRlZF93aXRo/X2FfbW9iaWxlX3Bo/b25lLnBuZw",
+          img2: "https://imgs.search.brave.com/9RrO5zGL9IMRQklxSLZoTUbPC_2fCYDkSi36wt-Cfs8/rs:fit:500:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy90/aHVtYi9iL2I2L0lt/YWdlX2NyZWF0ZWRf/d2l0aF9hX21vYmls/ZV9waG9uZS5wbmcv/NjQwcHgtSW1hZ2Vf/Y3JlYXRlZF93aXRo/X2FfbW9iaWxlX3Bo/b25lLnBuZw",
+          img3: "https://imgs.search.brave.com/0UY2qPSV8pWV8YcArj2ir5aPct6MzZDEWbM-FlsvHlM/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNzc5/MzE2NDUvcGhvdG8v/d29tYW4tYW5kLXlv/dW5nLWdpcmwtb3V0/ZG9vcnMtd2l0aC1w/ZW9wbGUtaW4tYmFj/a2dyb3VuZC5qcGc_/cz02MTJ4NjEyJnc9/MCZrPTIwJmM9bG5V/UWZnTHlVZ21HUHR6/NkZzYXRIWVNub3dZ/Xzl3YmRQUXVYZmI4/WDNxQT0",
+          img4: "https://imgs.search.brave.com/G7PMeUgzG1zh75C7cIXIVWlrcnUczSU8lKlLqkCC16w/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTMw/OTMyODgyMy9waG90/by9oZWFkc2hvdC1w/b3J0cmFpdC1vZi1z/bWlsaW5nLW1hbGUt/ZW1wbG95ZWUtaW4t/b2ZmaWNlLmpwZz9z/PTYxMng2MTImdz0w/Jms9MjAmYz1rUHZv/Qm02cUNZelFYTUFu/OUpVdHFMUkVYZTkt/UGxaeU1sOWktaWJh/VnVZPQ",
+        });
+        
+        
+        const [activeImg, setActiveImage] = useState(images.img1);
   const [amount, setAmount] = useState(1);
   const breadcrumbLinks = [
     { path: "/", label: "Home" },
@@ -235,7 +251,7 @@ function ViewProductPage() {
               <h1 className="text-left font-bold bg-white">Opportunities</h1>
 
               <div className="w-full flex items-center gap-2 bg-white">
-                <div className="w-[95%] border-2 py-3 px-2  bg-white border-blue-800 rounded-xl flex justify-between items-center">
+                <div className="w-[95%] border py-3 px-2  bg-white border-blue-800 rounded-xl flex justify-between items-center">
                   <h1 className="text-sm font-bold px-1 bg-white">
                     Become an authorized Specialist
                   </h1>
@@ -249,7 +265,7 @@ function ViewProductPage() {
               </div>
 
               <div className="w-full flex items-center bg-white gap-2">
-                <div className="w-[95%] border-2 py-3 px-2  border-blue-800 rounded-xl bg-white flex justify-between items-center">
+                <div className="w-[95%] border py-3 px-2  border-blue-800 rounded-xl bg-white flex justify-between items-center">
                   <h1 className="text-sm font-bold px-1 bg-white">
                     Become a supplier
                   </h1>
@@ -263,7 +279,7 @@ function ViewProductPage() {
               </div>
 
               <div className="w-full flex items-center gap-2 bg-white">
-                <div className="w-[95%] border-2 py-3 px-2 bg-white  border-blue-800 rounded-xl flex justify-between items-center">
+                <div className="w-[95%] border py-3 px-2 bg-white  border-blue-800 rounded-xl flex justify-between items-center">
                   <h1 className="text-sm font-bold px-1 bg-white">
                     Become an Dealer/Reseller
                   </h1>
@@ -284,7 +300,9 @@ function ViewProductPage() {
                 </h1>
                 <Icon
                   icon="mingcute:search-line"
-                  className={`px-4  items-center  ${isSearchVisible ? "hidden" : ""}`}
+                  className={`px-4  items-center  ${
+                    isSearchVisible ? "hidden" : ""
+                  }`}
                   onClick={toggleSearch}
                 />
 
@@ -300,14 +318,12 @@ function ViewProductPage() {
                     id=""
                     placeholder="what"
                   />
-                  {/* <div className="  "> */}
-                    <img
-                      src={cross}
-                      alt=""
-                      className="bg-transparent"
-                      onClick={toggleSearch}
-                    />
-                  {/* </div> */}
+                  <img
+                    src={cross}
+                    alt=""
+                    className="bg-transparent"
+                    onClick={toggleSearch}
+                  />
                 </div>
               </div>
 
@@ -368,15 +384,61 @@ function ViewProductPage() {
                 </span>
 
                 <span className="text-xs text-gray-600 flex items-center gap-2">
-                  {" "}
                   <Icon icon="ci:octagon-check" /> certified Seller
                 </span>
               </div>
             </div>
           </div>
+          {/* More ProductSection */}
+          <div className="w-[920px]  px-2 mx-7 mt-4 h-auto rounded-xl bg-white relative">
+            <div className="w-full  bg-white rounded-lg ">
+              <h1 className="text-left text-black font-semibold text-xl bg-white py-4 px-3">
+                More Products From the seller
+              </h1>
+
+              <div className="scrollcontainer w-[870px] overflow-x-scroll grid bg-white grid-flow-col gap-4 px-3 ">
+                {moreProducts.map((product, index) => (
+                  <div
+                    key={index}
+                    className="mt-5 bg-transparent w-72 min-h-[10rem] rounded-lg shadow-xl   overflow-hidden"
+                  >
+                    <img
+                      className="w-full h-[200px]  object-center object-cover"
+                      src={product.sections1.productImage[0]?.base64 || ""}
+                    />
+                    <div className="p-5 flex-col gap-3">
+                      <h1 className="font-bold text-lg text-black overflow-hidden overflow-ellipsis">
+                        {product.sections1.productDetails.productName}
+                      </h1>
+                      <div className="pt-3 text-blue-900 font-semibold">
+                        <span className="text-lg block">
+                          By {product.sections1.productDetails.brandName}
+                        </span>
+                        <p className="mt-2 font-bold">
+                          Price : ₹{" "}
+                          {product.sections2?.variantFields[0]?.mrpValue || ""}{" "}
+                          / piece
+                        </p>
+                      </div>
+                      <div className="w-full pt-3">
+                        <button className="bg-blue-900 h-10 rounded-xl text-white font-semibold w-full">
+                          Send Enquiry
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                <div className="absolute top-0 right-0 bottom-0 px-2 bg-transparent flex items-center justify-center cursor-pointer">
+                  <FiChevronRight className="bg-white  h-6 w-6" />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="container-2">
-          <div className="container-1-sub"></div>
+          <div className="w-[350px] h-[350px] bg-white mt-5 rounded-2xl mx-5"></div>
+          <div className="w-[350px] h-[350px] bg-white mt-5 rounded-2xl mx-5"></div>
+          <div className="w-[350px] h-[350px] bg-white mt-5 rounded-2xl mx-5"></div>
         </div>
       </div>
     </>

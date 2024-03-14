@@ -12,8 +12,8 @@ function AdminRoutes() {
     <Routes>
       <Route path="/addcompany" element={<CompanyPage />} />
       {/* <Route path="/" element={<CompanyPage />} /> */}
-      <Route path="/signup" element={<SignupPage />} />
-      <Route path="/login" element={<LoginPage />} />
+      {/* <Route path="/signup" element={<SignupPage />} />
+      <Route path="/login" element={<LoginPage />} /> */}
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/addproduct" element={<ProductForm />} />
       <Route path="/product/:id" element={<ProductPage />} />
