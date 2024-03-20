@@ -7,7 +7,7 @@ import { CiSettings } from "react-icons/ci";
 import { FaPeopleGroup } from "react-icons/fa6";
 import { IoCubeOutline } from "react-icons/io5";
 import { GrAnalytics } from "react-icons/gr";
-import { FaRegLightbulb,FaRegQuestionCircle } from "react-icons/fa";
+import { FaRegLightbulb, FaRegQuestionCircle } from "react-icons/fa";
 import sidBarImage from "../../assets/sidebar.png";
 import { LuKey } from "react-icons/lu";
 import { useSelector } from "react-redux";
@@ -33,14 +33,14 @@ function AdminSidebar() {
       path: user ? "/admin/opportunities" : "/login",
     },
     {
-        title: "Enquiries",
-        icon: <FaPeopleGroup className="bg-transparent" />,
-        path:  user ? "/admin/enquiries" : "/login",
-      },
+      title: "Enquiries",
+      icon: <FaPeopleGroup className="bg-transparent" />,
+      path: user ? "/admin/enquiries" : "/login",
+    },
     {
       title: "Wishlist",
       icon: <LiaClipboardCheckSolid className="bg-transparent" />,
-      path:  user ? "/admin/wishlist" : "/login",
+      path: user ? "/admin/wishlist" : "/login",
     },
     {
       title: "Analytics",
@@ -60,12 +60,12 @@ function AdminSidebar() {
     {
       title: "Setting",
       icon: <CiSettings className="bg-transparent" />,
-      path: user ? "/admin/setting" : "/login"
+      path: user ? "/admin/setting" : "/login",
     },
   ]);
 
   return (
-    <div className="md:w-[230px] left-0 overflow-hidden w-[60px] bg-white flex flex-col fixed h-full ">
+    <div className="md:w-[230px] left-0 overflow-hidden w-[60px] bg-white flex flex-col fixed h-full hidden md:block ">
       <div className="w-full h-[calc(100vh-70px)] flex flex-col items-start gap-2 border-slate-300 bg-[#fff] py-5 relative">
         {navLinks.map((link, index) => (
           <Link

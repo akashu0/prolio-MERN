@@ -10,7 +10,7 @@ function AdminEnquiries() {
   };
   return (
     <>
-      <div className="ml-12 mt-5 flex justify-between">
+      <div className="mt-5 flex justify-between">
         <h1 className="text-3xl px-5 font-semibold">Enquiries</h1>
         <select
           className="px-5 items-start focus:outline-none pt-1 rounded-lg font-semibold mx-14 border bg-white"

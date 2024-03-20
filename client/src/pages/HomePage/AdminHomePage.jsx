@@ -6,22 +6,23 @@ import { Route, Routes } from "react-router-dom";
 import ProfilePage from "../../components/User/ProfilePage";
 import Opportunities from "../../components/User/Opportunities";
 import Wishlist from "../../components/User/Wishlist";
-import ProductListPage from "../../components/Admin/ProductListPage"
+import ProductListPage from "../../components/Admin/ProductListPage";
 import AccessPage from "../../components/Admin/AccessPage";
 import Analytics from "../../components/Admin/Analytics";
 import FaqsPage from "../../components/Admin/FaqsPage";
 import SettingPage from "../../components/Admin/SettingPage";
 import AdminEnquiries from "../../components/Admin/AdminEnquiries";
+import "./AdminHomePage.css"
 
 function AdminHomePage() {
   return (
     <>
       <CommonNavbar />
       <div className="mt-16 flex ">
-        <div className="w-[230px] ">
+        <div className="">
           <AdminSidebar />
         </div>
-        <div className="w-full h-screen">
+        <div className="w-full h-screen main-content">
           <Routes>
             <Route path="/" element={<LandingPage />}></Route>
             <Route path="/products" element={<ProductListPage />} />

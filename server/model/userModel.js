@@ -29,6 +29,9 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  userImg: {
+    type: String,
+  },
 
   wishlist: [
     {
@@ -41,7 +44,6 @@ const userSchema = new mongoose.Schema({
   ],
 
   oppurtunities: [
-    
     {
       type: mongoose.Schema.Types.Mixed,
       default: [],

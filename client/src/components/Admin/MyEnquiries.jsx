@@ -144,7 +144,7 @@ function MyEnquiries() {
   const tablelist = () => {
     return (
       <>
-        <div className="w-full h-[250px] mt-2 overflow-auto">
+        <div className="w-full  h-[250px] mt-2 overflow-auto">
           <table className="w-full mx-4 mt-3">
             <thead>
               {table.getHeaderGroups().map((headerGroup) => (
@@ -205,7 +205,7 @@ function MyEnquiries() {
 
   return (
     <>
-      <div className="w-[1070px] h-[380px] ml-12 rounded-md bg-white mt-5">
+      <div className="w-[1070px] h-[380px]  rounded-md bg-white mt-5">
         <div className="w-auto flex flex-col  bg-transparent  pt-5">
           <div className="w-full relative mx-10 bg-transparent">
             {DropDownList.map((value, key) => {
