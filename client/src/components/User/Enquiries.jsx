@@ -10,8 +10,8 @@ import {
 import dotIcon from "../../assets/doticon.png";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import EnquiriesModal from "./EnquiriesModal";
-import EnquiryModal from "../Re-use/EnquiryModal";
+
+import UserEnquiriesMoal from "./UserEnquiriesMoal";
 
 function Enquiries() {
   const token = useSelector((state) => state.token.token);
@@ -244,7 +244,7 @@ function Enquiries() {
         </div>
       </div>
 
-      <EnquiriesModal
+      <UserEnquiriesMoal
         onClose={handleOnClose}
         visible={showEnquirieModal}
         data={clickedRowId}

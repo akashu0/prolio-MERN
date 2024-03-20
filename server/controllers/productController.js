@@ -1,46 +1,109 @@
 const Product = require("../model/productModel");
+const jwt = require("jsonwebtoken");
+const Company = require("../model/companyDetailsModel");
 
 const create_product = async (req, res) => {
   try {
-    // const { companyId } = req.params;
+    const { userId, role } = req.user;
 
-    const { sections } = req.body;
-
-    // console.log(productDetails);
-    // console.log(productImage);
-    const newProudct = await Product.create({ sections });
-
-    // const newItem = await newProudct.save();
-    res.status(201).json({
-      message: "Product is created",
-      data: newProudct._id,
-      // newProudct,
-    });
+    // Check if the user's company exists
+    const checkExistedCompany = await Company.findOne({ userId: userId });
+    if (checkExistedCompany) {
+      const { sections1 } = req.body;
+      // Create a new product associated with the user's company
+      const newProduct = await Product.create({
+        sections1: sections1,
+        companyId: checkExistedCompany._id,
+        userId: userId
+      });
+      await newProduct.save();
+      res.status(201).json(newProduct._id);
+    } else {
+      // If the user's company does not exist, return an error
+      return res.status(401).json({ message: "Company Not Registered" });
+    }
   } catch (error) {
     console.error("Error saving product details:", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 // updating the steps deatils from addproduct page
 const update_sections = async (req, res) => {
   try {
     const productId = req.params.Id;
-    const sectionData = req.body;
-    const status = req.body.status;
-    const findItem = await Product.findById({ _id: productId });
+    const { section2, status } = req.body;
+    // Find the product by ID
+    const findItem = await Product.findById(productId);
     if (!findItem) {
       return res.status(400).json({
         message: "Unable to find product",
       });
     }
+    // Update section2 if provided
+    if (section2) {
+      findItem.sections2 = section2;
+    }
+    // Update status if provided
     if (status) {
       findItem.status = status;
     }
-    findItem.sections = sectionData;
+    // Save the updated product
     await findItem.save();
     res.json(findItem);
   } catch (error) {
-    console.error("Error saving product details:", error.message);
+    console.error("Error updating product details:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const update_sections3 = async (req, res) => {
+  try {
+    const productId = req.params.Id;
+    const { sections3, status } = req.body;
+    const findItem = await Product.findById(productId);
+    if (!findItem) {
+      return res.status(400).json({
+        message: "Unable to find product",
+      });
+    }
+    if (sections3) {
+      findItem.sections3 = sections3;
+    }
+    if (status) {
+      findItem.status = status;
+    }
+    await findItem.save();
+    res.json(findItem);
+  } catch (error) {
+    console.error("Error updating product details:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+const update_sections4 = async (req, res) => {
+  try {
+    const productId = req.params.Id;
+    const { sections4, status } = req.body;
+    // Find the product by ID
+    const findItem = await Product.findById(productId);
+    if (!findItem) {
+      return res.status(400).json({
+        message: "Unable to find product",
+      });
+    }
+    // Update section2 if provided
+    if (sections4) {
+      findItem.sections4 = sections4;
+    }
+    // Update status if provided
+    if (status) {
+      findItem.status = status;
+    }
+    // Save the updated product
+    await findItem.save();
+    res.json(findItem);
+  } catch (error) {
+    console.error("Error updating product details:", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -49,6 +112,9 @@ const update_sections = async (req, res) => {
 const getAllProducts = async (req, res) => {
   try {
     const collectData = await Product.find({});
+    // if (collectData.length === 0) {
+    //   return res.status(404).json({ message: "No active products found" });
+    // }
     res.status(201).json(collectData);
   } catch (error) {
     console.error("Error saving product details:", error.message);
@@ -76,9 +142,11 @@ const getAllProductByCompany = async (req, res) => {
 const getProductById = async (req, res) => {
   try {
     const productId = req.params.id;
-    // console.log(productId);
-    const fetchData = await Product.findById({ _id: productId });
-    // console.log(fetchData);
+
+    const fetchData = await Product.findById({ _id: productId })
+      .populate("companyId")
+      .exec();
+
     res.status(200).json(fetchData);
   } catch (error) {
     console.error("Error saving product details:", error.message);
@@ -91,6 +159,7 @@ const getProductById = async (req, res) => {
 const updateproductStatus = async (req, res) => {
   try {
     const productId = req.params.productId;
+    console.log(productId);
     const status = req.body.status;
 
     const fetchData = await Product.findById({ _id: productId });
@@ -114,4 +183,6 @@ module.exports = {
   getAllProductByCompany,
   getProductById,
   updateproductStatus,
+  update_sections3,
+  update_sections4,
 };

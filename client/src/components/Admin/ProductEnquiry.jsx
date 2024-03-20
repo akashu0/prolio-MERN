@@ -9,15 +9,15 @@ import {
 import dotIcon from "../../assets/doticon.png";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import EnquiryModal from "../Re-use/EnquiryModal";
+import EnquiryModal from "./EnquiryModal";
 
-function ProductEnquiry() {
+function Enquiries() {
   const token = useSelector((state) => state.token.token);
   const [enquiries, setEnquiries] = useState([]);
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const DropDownList = ["All Enquiries", "Pending", "Received"];
+  const DropDownList = ["All Enquiries", "Pending", "Send"];
   const [selectedButton, setSelectedButton] = useState(DropDownList[0]);
 
   const apiURL = process.env.REACT_APP_API_URL;
@@ -25,11 +25,14 @@ function ProductEnquiry() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${apiURL}/enquiry/getReceivedEnquiry`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          `${apiURL}/enquiry/getReceivedEnquiry`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         console.log(response.data);
         setEnquiries(response.data);
@@ -60,7 +63,7 @@ function ProductEnquiry() {
       return list.filter(
         (list) =>
           (selectedButton === "Pending" && list.status === "pending") ||
-          (selectedButton === "Received" && list.status === "received")
+          (selectedButton === "Send" && list.status === "received")
       );
     }
   }, [list, selectedButton]);
@@ -183,10 +186,17 @@ function ProductEnquiry() {
                         cell.getValue()
                       )}`}
                     >
-                      {flexRender(
+                      {/* {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
-                      )}
+                      )} */}
+                      {cell.column.accessorKey === "status" &&
+                      row.original.status === "received"
+                        ? "Send"
+                        : flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
                     </td>
                   ))}
                   <td className="px-8 py-2 bg-transparent">
@@ -249,4 +259,4 @@ function ProductEnquiry() {
   );
 }
 
-export default ProductEnquiry;
+export default Enquiries;

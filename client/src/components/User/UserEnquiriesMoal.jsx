@@ -4,7 +4,7 @@ import arrow from "../../assets/arrow-left.png";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-function EnquiryModal({ visible, onClose, data }) {
+function UserEnquiriesMoal({ visible, onClose, data }) {
   if (!visible) return null;
 
   const [value, setValue] = useState("");
@@ -24,7 +24,7 @@ function EnquiryModal({ visible, onClose, data }) {
       try {
         // Use the "repliedEnquiry" endpoint for updating the enquiry
         const response = await axios.put(
-          `${apiURL}/enquiry/repliedEnquiry`,
+          `${apiURL}/enquiry/updateEnquiry`,
           {
             productId: productId,
             text: value,
@@ -203,4 +203,4 @@ function EnquiryModal({ visible, onClose, data }) {
   );
 }
 
-export default EnquiryModal;
+export default UserEnquiriesMoal;

@@ -12,8 +12,13 @@ import cross from "../../assets/cross.png";
 import { FiChevronRight } from "react-icons/fi";
 import VariationComponents from "../Re-use/VariationComponents";
 import EnquiriesModal from "../User/EnquiriesModal";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
 
 function ViewProductPage() {
+  const token = useSelector((state) => state.token.token);
+
   const DropDownList = [
     "Product Details",
     "Social Media Handles",
@@ -36,9 +41,9 @@ function ViewProductPage() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/product/getProductById/${id}`
+          `${apiURL}/product/getProductById/${id}`
         );
-        console.log(response.data);
+        // console.log(response.data);
         setData(response.data);
       } catch (error) {
         console.log("Error fetching data:", error);
@@ -72,6 +77,32 @@ function ViewProductPage() {
 
       default:
         return null;
+    }
+  };
+
+  const productId = data?._id;
+
+  const handleWishlist = async () => {
+    try {
+      const response = await axios.post(
+        `${apiURL}/user/add-wishlist`,
+        {
+          productId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        toast.success("Product Added to Wishlist");
+      }
+      if (response.status === 201) {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.error("Error updating wishlist:", error.message);
     }
   };
 
@@ -139,6 +170,7 @@ function ViewProductPage() {
                     className="w-7 h-7"
                     src={wishlistIcon}
                     alt="wishlistIcon"
+                    onClick={handleWishlist}
                   />
                   <img className="w-7 h-7" src={shareIcone} alt="shareIcon" />
                 </div>
@@ -522,6 +554,7 @@ function ViewProductPage() {
         visible={showEnquirieModal}
         data={data}
       />
+      <ToastContainer />
     </>
   );
 }

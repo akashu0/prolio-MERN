@@ -9,7 +9,7 @@ import {
 import dotIcon from "../../assets/doticon.png";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import EnquiryModal from "../Re-use/EnquiryModal";
+import EnquiryModal from "./EnquiryModal";
 
 function MyEnquiries() {
   const token = useSelector((state) => state.token.token);
@@ -17,7 +17,7 @@ function MyEnquiries() {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const DropDownList = ["All Enquiries", "Pending", "Sent"];
+  const DropDownList = ["All Enquiries", "Pending", "Received"];
   const [selectedButton, setSelectedButton] = useState(DropDownList[0]);
 
   const apiURL = process.env.REACT_APP_API_URL;

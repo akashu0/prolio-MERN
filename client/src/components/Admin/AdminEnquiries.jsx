@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import MyEnquiries from "./MyEnquiries";
-import Enquiries from "./Enquiries";
 import ProductEnquiry from "./ProductEnquiry";
 
 function AdminEnquiries() {
@@ -23,7 +22,7 @@ function AdminEnquiries() {
         </select>
       </div>
       {selectedOption === "MyEnquiries" && <MyEnquiries />}
-      
+
       {selectedOption === "ProductEnquiries" && <ProductEnquiry />}
     </>
   );
