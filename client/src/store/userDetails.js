@@ -1,9 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  token: "",
+  user: "",
   role: "",
-  userId: "",
   user: false,
 };
 
@@ -14,20 +13,15 @@ const tokenSlice = createSlice({
     setToken: (state, action) => {
       state.token = action.payload.token;
       state.role = action.payload.role;
-      state.userId = action.payload.id;
       state.user = true;
     },
     clearToken: (state, action) => {
       state.token = null;
       state.role = null;
-      state.userId = null;
       state.user = false;
     },
-    setRole: (state,action) => {
-      state.role = action.payload.role
-    }
   },
 });
 
-export const { setToken, clearToken ,setRole} = tokenSlice.actions;
+export const { setToken, clearToken } = tokenSlice.actions;
 export default tokenSlice.reducer;

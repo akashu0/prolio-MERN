@@ -30,7 +30,7 @@ function SignupPage() {
        
           toast.success("Sign Up Success");
           setTimeout(() => {
-            navigate("/admin/login");
+            navigate("/login");
           }, 2000);
         })
         .catch((err) => {
@@ -41,7 +41,7 @@ function SignupPage() {
   };
 
   return (
-    <div className="w-full h-full  flex  bg-blue-50">
+    <div className="w-full h-full  flex  bg-transparent">
       <AuthPage />
       <div className="w-1/2  h-full flex flex-col p-14 ml-12">
         <h1 className="pt-10 font-bold">
@@ -123,7 +123,7 @@ function SignupPage() {
               )}
             </div>
             <div className="pt-4">
-              <button className=" w-full h-10 rounded text-sm bg-blue-900 hover:bg-white shadow-xl text-white hover:text-black">
+              <button className=" w-full h-10 rounded text-sm transition ease-in-out delay-150 bg-blue-900 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 shadow-xl text-white ">
                 Sign Up Now
               </button>
             </div>
@@ -143,8 +143,8 @@ function SignupPage() {
             <p className="pt-4 text-gray-500">
               Already have an account ?
               <Link
-                className="underline text-blue-600 hover:text-blue-800 font-semibold px-2"
-                to="/admin/login"
+                className="underline text-blue-600 hover:text-blue-800 font-semibold px-2 "
+                to="/login"
               >
                 Sign In
               </Link>

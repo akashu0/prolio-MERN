@@ -1,25 +1,23 @@
 import React, { useEffect, useMemo, useState } from "react";
+
 import {
   flexRender,
   getCoreRowModel,
-  getFilteredRowModel,
   getPaginationRowModel,
-  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import dotIcon from "../../assets/doticon.png";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import EnquiriesModal from "./EnquiriesModal";
 import EnquiryModal from "../Re-use/EnquiryModal";
 
-function Enquiries() {
+function MyEnquiries() {
   const token = useSelector((state) => state.token.token);
   const [enquiries, setEnquiries] = useState([]);
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const DropDownList = ["All Enquiries", "Pending", "Received"];
+  const DropDownList = ["All Enquiries", "Pending", "Sent"];
   const [selectedButton, setSelectedButton] = useState(DropDownList[0]);
 
   const apiURL = process.env.REACT_APP_API_URL;
@@ -207,10 +205,6 @@ function Enquiries() {
 
   return (
     <>
-      <div className="ml-12 mt-5">
-        <h1 className="text-3xl  px-5 font-semibold">Enquiries</h1>
-      </div>
-      {/* <Table data={data} columns={columns} />; */}
       <div className="w-[1070px] h-[380px] ml-12 rounded-md bg-white mt-5">
         <div className="w-auto flex flex-col  bg-transparent  pt-5">
           <div className="w-full relative mx-10 bg-transparent">
@@ -244,7 +238,7 @@ function Enquiries() {
         </div>
       </div>
 
-      <EnquiriesModal
+      <EnquiryModal
         onClose={handleOnClose}
         visible={showEnquirieModal}
         data={clickedRowId}
@@ -253,4 +247,4 @@ function Enquiries() {
   );
 }
 
-export default Enquiries;
+export default MyEnquiries;

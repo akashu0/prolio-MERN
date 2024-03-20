@@ -158,7 +158,7 @@ function ProductDetails() {
           <div className="w-4/5  ">
             <div
               className="h-60 mt-5 rounded"
-              // style={{ border: "1px solid black", borderRadius: "50px" }}
+             
             >
               <h1 className="font-semibold py-4 px-3 bg-white">
                 Company Details

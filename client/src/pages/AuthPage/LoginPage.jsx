@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AuthPage from "../../components/Re-use/AuthPage";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,11 +9,12 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { userLoginValidationSchema } from "../../util/validation";
 import { setToken } from "../../store/tokenSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function LoginPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
 
   const {
     register,
@@ -30,8 +31,15 @@ function LoginPage() {
       axios
         .post(`${apiURL}/auth/login`, formData)
         .then((res) => {
-          dispatch(setToken(res.data));
-          navigate("/");
+          // console.log(res.data);
+
+         dispatch(setToken(res.data));
+
+          if (res.data.role === "user") {
+            navigate("/");
+          } else {
+            navigate("/admin");
+          }
         })
         .catch((err) => {
           toast.error("Invalid Credentials");
@@ -41,7 +49,7 @@ function LoginPage() {
   };
 
   return (
-    <div className="w-full h-full  flex  bg-blue-50">
+    <div className="w-full h-full  flex  bg-transparent">
       <AuthPage />
       <div className="w-1/2  h-full flex flex-col p-14 ml-12">
         <h1 className="pt-10 text-xl font-bold">
@@ -78,7 +86,7 @@ function LoginPage() {
             </div>
 
             <div className="pt-4">
-              <button className=" w-full h-10 rounded text-sm bg-blue-900 hover:bg-white shadow-xl text-white hover:text-black">
+              <button className=" w-full h-10 rounded text-sm transition ease-in-out delay-150 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 shadow-xl text-white ">
                 Sign In Now
               </button>
             </div>
@@ -99,7 +107,7 @@ function LoginPage() {
               Already have an account ?
               <Link
                 className="underline text-blue-600 hover:text-blue-800 font-semibold px-2"
-                to="/admin/signup"
+                to="/signup"
               >
                 Sign Up
               </Link>

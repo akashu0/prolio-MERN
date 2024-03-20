@@ -11,8 +11,11 @@ const productIdSlice = createSlice({
     saveproductId: (state, action) => {
       state.productId = action.payload;
     },
+    clearProductId: (state) => {
+      state.productId = initialState.productId;
+    },
   },
 });
 
-export const { saveproductId } = productIdSlice.actions;
+export const { saveproductId, clearProductId } = productIdSlice.actions;
 export default productIdSlice.reducer;

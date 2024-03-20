@@ -8,9 +8,9 @@ import ProfilePage from "../../components/User/ProfilePage";
 import LoginPage from "../AuthPage/LoginPage";
 import Opportunities from "../../components/User/Opportunities";
 import Wishlist from "../../components/User/Wishlist";
+import Enquiries from "../../components/User/Enquiries";
 
 function HomePage() {
-  const user = useSelector((state) => state.token.user);
 
   return (
     <>
@@ -23,8 +23,9 @@ function HomePage() {
           <Routes>
             <Route path="/" element={<LandingPage />}></Route>
             <Route path="/profile" element={<ProfilePage />}></Route>
-            <Route path="/opportunities" element={<Opportunities />}></Route>
+            <Route path="/opportunities" element={<Opportunities /> }></Route>
             <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/enquiries" element={<Enquiries />} />
 
           </Routes>
         </div>

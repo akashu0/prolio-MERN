@@ -8,6 +8,7 @@ import { saveproductId } from "../../store/productId";
 
 function AddProduct({ onSubmit }) {
   const dispatch = useDispatch();
+  const token = useSelector((state) => state.token.token);
   const [productTypes, setProductTypes] = useState([]);
   const [selectedProductType, setSelectedProductType] = useState("");
   const [selectedCategoryName, setSelectedCategoryName] = useState("");
@@ -36,18 +37,26 @@ function AddProduct({ onSubmit }) {
         selectedProductType,
         selectedSubCategoryName,
         selectedCategoryName,
-        selectedProductType,
+        selectedProductType, // Duplicate entry removed
       };
 
-      const response = await axios.post(`${apiURL}/product/create-product`, {
-        sections1,
-      });
-      // console.log(response.data);
+      const response = await axios.post(
+        `${apiURL}/product/create-product`,
+        {
+          sections1,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       const id = response.data;
       dispatch(saveproductId(id));
       dispatch(clearState());
       onSubmit();
     } catch (error) {
+      // toast.error(error.message);
       console.log(error.message);
     }
   };
@@ -215,7 +224,7 @@ function AddProduct({ onSubmit }) {
         <button
           type="submit"
           className=" w-48 mt-5  text-white h-10 bg-blue-950 hover:bg-green-500 "
-          onClick={handlerSaveButton }
+          onClick={handlerSaveButton}
         >
           Save and Continue
         </button>

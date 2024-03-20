@@ -17,50 +17,52 @@ function LandingPage() {
 
   const apiURL = process.env.REACT_APP_API_URL;
   useEffect(() => {
-    const apiUrl = `${apiURL}/product/getall-product`;
-    setLoading(true);
-    axios
-      .get(apiUrl)
-      .then((response) => {
-        setCardsData(response.data);
+    const fetchData = async () => {
+      try {
+        const apiUrl = `${apiURL}/product/getall-product`;
+        setLoading(true);
+        const response = await axios.get(apiUrl);
         setLoading(false);
-      })
-      .catch((error) => {
+        setCardsData(response.data);
+      } catch (error) {
         setLoading(false);
         console.error("Error fetching data:", error);
-      });
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
     <>
-      <div className=" w-full h-full z-0 ">
+      <div className=" w-full h-full ">
         {/*Banner Section */}
         {Loading ? (
           <Template />
         ) : (
           <div className="bg-transparent">
             <div
-              className="bg-blue-400 w-[1000px] ml-20 mt-4 rounded-xl h-[300px] realtive"
+              className="bg-blue-400 w-[1000px] ml-20 mt-4 rounded-xl h-[300px] "
               style={{
                 backgroundImage: `url(${banner.bannerImage})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
             >
-              <div className="relative">
-                <p className="absolute  pt-20 px-20   text-2xl font-medium font-serif bg-transparent text-white ">
+              <div className="bg-transparent">
+                <p className="  pt-20 px-20   text-2xl font-medium font-serif bg-transparent text-white ">
                   Discover the world of <br /> product at your <br />
                   fingertips.
                 </p>
               </div>
-              <div className="absolute pt-52 px-20 bg-transparent text-white ">
+              {/* <div className=" pt-52 px-20 bg-transparent text-white ">
                 <button className="w-44 h-10 rounded-lg  text-sm bg-blue-950">
                   Join Prolio As Buyer
                 </button>
                 <button className="w-44 h-10 rounded-lg ml-9 text-sm bg-blue-950">
                   Join Prolio As Seller
                 </button>
-              </div>
+              </div> */}
             </div>
             {/* Section 2 */}
             <div className="w-[1000px] bg-transparent h-[200px] ml-20 mt-6 gap-8 flex">
@@ -127,7 +129,7 @@ function LandingPage() {
                       onClick={() => {
                         navigate(`/viewproduct/${product._id}`);
                       }}
-                      className="mt-5 bg-transparent w-72 min-h-[10rem] rounded-lg shadow-xl   overflow-hidden"
+                      className="mt-5 bg-transparent w-72 min-h-[10rem] rounded-lg shadow-xl cursor-pointer  overflow-hidden"
                     >
                       <img
                         className="w-full h-[200px]  object-center object-cover"

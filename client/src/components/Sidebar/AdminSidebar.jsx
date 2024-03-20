@@ -3,12 +3,16 @@ import { Link, useLocation } from "react-router-dom";
 import { Icon } from "@iconify-icon/react";
 import { BsFilePostFill } from "react-icons/bs";
 import { LiaClipboardCheckSolid } from "react-icons/lia";
-import { FaRegLightbulb } from "react-icons/fa";
+import { CiSettings } from "react-icons/ci";
 import { FaPeopleGroup } from "react-icons/fa6";
+import { IoCubeOutline } from "react-icons/io5";
+import { GrAnalytics } from "react-icons/gr";
+import { FaRegLightbulb,FaRegQuestionCircle } from "react-icons/fa";
 import sidBarImage from "../../assets/sidebar.png";
+import { LuKey } from "react-icons/lu";
 import { useSelector } from "react-redux";
 
-function Sidebar() {
+function AdminSidebar() {
   const location = useLocation(); // Get the current location
   const user = useSelector((state) => state.token.user);
 
@@ -16,24 +20,48 @@ function Sidebar() {
     {
       title: "Home",
       icon: <Icon icon="mingcute:grid-2-fill" className="bg-transparent" />,
-      path: "/",
+      path: "/admin",
+    },
+    {
+      title: "Products",
+      icon: <IoCubeOutline className="bg-transparent" />,
+      path: user ? "/admin/products" : "/login",
     },
     {
       title: "Opportunities",
       icon: <FaRegLightbulb className="bg-transparent" />,
-      path: user ? "/opportunities" : "/login",
+      path: user ? "/admin/opportunities" : "/login",
     },
+    {
+        title: "Enquiries",
+        icon: <FaPeopleGroup className="bg-transparent" />,
+        path:  user ? "/admin/enquiries" : "/login",
+      },
     {
       title: "Wishlist",
       icon: <LiaClipboardCheckSolid className="bg-transparent" />,
-      path: user ? "/wishlist" : "/login",
+      path:  user ? "/admin/wishlist" : "/login",
     },
     {
-      title: "Enquiries",
-      icon: <FaPeopleGroup className="bg-transparent" />,
-      path: user ? "/enquiries" : "/login",
+      title: "Analytics",
+      icon: <GrAnalytics className="bg-transparent" />,
+      path: user ? "/admin/dashboard" : "/login",
     },
-   
+    {
+      title: "Access Management",
+      icon: <LuKey className="bg-transparent" />,
+      path: user ? "/admin/access" : "/login",
+    },
+    {
+      title: "Faqs",
+      icon: <FaRegQuestionCircle className="bg-transparent" />,
+      path: user ? "/admin/faqs" : "/login",
+    },
+    {
+      title: "Setting",
+      icon: <CiSettings className="bg-transparent" />,
+      path: user ? "/admin/setting" : "/login"
+    },
   ]);
 
   return (
@@ -70,4 +98,4 @@ function Sidebar() {
   );
 }
 
-export default Sidebar;
+export default AdminSidebar;

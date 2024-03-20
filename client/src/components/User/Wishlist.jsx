@@ -13,7 +13,7 @@ const data = [
   {
     image: bagImg,
     productName: "School Bag",
-    description: "Hai this hai product is most wonderfull in the world",
+    description: "Hai this hai product is most wonderfull in the world ",
     colour: "Red",
     composition: "100% calf leather"
   },
@@ -45,7 +45,7 @@ function Wishlist() {
           {data.map((item, index) => (
             <div key={index} className="w-[450px] h-[200px] flex  rounded-md">
               <div className="rounded-md bg-transparent mt-10 ml-10">
-                <img src={item.image} alt="" className="w-32 h-36 rounded-md" />
+                <img src={item.image} alt="" className="w-32 h-36 rounded-md cursor-pointer" />
               </div>
               <div className="pt-6 px-3 w-1/2 flex-grow">
                 <h1 className="text-xl font-bold">{item.productName}</h1>

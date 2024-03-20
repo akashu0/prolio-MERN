@@ -10,6 +10,8 @@ import axios from "axios";
 import { Icon } from "@iconify-icon/react";
 import cross from "../../assets/cross.png";
 import { FiChevronRight } from "react-icons/fi";
+import VariationComponents from "../Re-use/VariationComponents";
+import EnquiriesModal from "../User/EnquiriesModal";
 
 function ViewProductPage() {
   const DropDownList = [
@@ -23,16 +25,20 @@ function ViewProductPage() {
   const { id } = useParams();
   // console.log(id)
   const [data, setData] = useState();
+  const [value, setValue] = useState(0);
+  const activeImage = data?.sections1?.productImage[value];
 
   const [moreProducts, setMoreProducts] = useState([]);
+  // const token = useSelector((state) => state.token.token);
 
   const apiURL = process.env.REACT_APP_API_URL;
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${apiURL}/product/getProductById/${id}`
+          `http://localhost:3000/api/product/getProductById/${id}`
         );
+        console.log(response.data);
         setData(response.data);
       } catch (error) {
         console.log("Error fetching data:", error);
@@ -47,7 +53,6 @@ function ViewProductPage() {
     axios
       .get(apiUrl)
       .then((response) => {
-        console.log(response.data);
         setMoreProducts(response.data);
       })
       .catch((error) => {
@@ -55,29 +60,21 @@ function ViewProductPage() {
       });
   });
   const [selectedButton, setSelectedButton] = useState(DropDownList[0]);
-  
+
   const renderComponent = () => {
     switch (selectedButton) {
       case "Product Details":
         return <ProductDetails1 data={data?.sections1 || ""} />;
-        case "Social Media Handles":
-          return <SocialComponent data={data?.sections4 || ""} />;
-          // Add cases for other buttons if needed
-          default:
-            return null;
-          }
-        };
-        
-        const [images, setImages] = useState({
-          img1: "https://imgs.search.brave.com/9RrO5zGL9IMRQklxSLZoTUbPC_2fCYDkSi36wt-Cfs8/rs:fit:500:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy90/aHVtYi9iL2I2L0lt/YWdlX2NyZWF0ZWRf/d2l0aF9hX21vYmls/ZV9waG9uZS5wbmcv/NjQwcHgtSW1hZ2Vf/Y3JlYXRlZF93aXRo/X2FfbW9iaWxlX3Bo/b25lLnBuZw",
-          img2: "https://imgs.search.brave.com/9RrO5zGL9IMRQklxSLZoTUbPC_2fCYDkSi36wt-Cfs8/rs:fit:500:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy90/aHVtYi9iL2I2L0lt/YWdlX2NyZWF0ZWRf/d2l0aF9hX21vYmls/ZV9waG9uZS5wbmcv/NjQwcHgtSW1hZ2Vf/Y3JlYXRlZF93aXRo/X2FfbW9iaWxlX3Bo/b25lLnBuZw",
-          img3: "https://imgs.search.brave.com/0UY2qPSV8pWV8YcArj2ir5aPct6MzZDEWbM-FlsvHlM/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNzc5/MzE2NDUvcGhvdG8v/d29tYW4tYW5kLXlv/dW5nLWdpcmwtb3V0/ZG9vcnMtd2l0aC1w/ZW9wbGUtaW4tYmFj/a2dyb3VuZC5qcGc_/cz02MTJ4NjEyJnc9/MCZrPTIwJmM9bG5V/UWZnTHlVZ21HUHR6/NkZzYXRIWVNub3dZ/Xzl3YmRQUXVYZmI4/WDNxQT0",
-          img4: "https://imgs.search.brave.com/G7PMeUgzG1zh75C7cIXIVWlrcnUczSU8lKlLqkCC16w/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTMw/OTMyODgyMy9waG90/by9oZWFkc2hvdC1w/b3J0cmFpdC1vZi1z/bWlsaW5nLW1hbGUt/ZW1wbG95ZWUtaW4t/b2ZmaWNlLmpwZz9z/PTYxMng2MTImdz0w/Jms9MjAmYz1rUHZv/Qm02cUNZelFYTUFu/OUpVdHFMUkVYZTkt/UGxaeU1sOWktaWJh/VnVZPQ",
-        });
-        
-        
-        const [activeImg, setActiveImage] = useState(images.img1);
-  const [amount, setAmount] = useState(1);
+      case "Social Media Handles":
+        return <SocialComponent data={data?.sections4 || ""} />;
+      case "Pricing":
+        return <VariationComponents data={data?.sections2 || ""} />;
+
+      default:
+        return null;
+    }
+  };
+
   const breadcrumbLinks = [
     { path: "/", label: "Home" },
     { path: "/categories", label: "All Categories" },
@@ -100,51 +97,43 @@ function ViewProductPage() {
   const toggleSearch = () => {
     setIsSearchVisible(!isSearchVisible);
   };
+
+  const [showEnquirieModal, setShowEnquirieModal] = useState(false);
+
+  const handleOnClose = () => setShowEnquirieModal(false);
+
   return (
     <>
-      <div className="main-container mt-16">
-        <div className="container-1 border-r border-black">
+      <div className="main-container mt-16 ">
+        <div className="container-1 border-r border-black ">
           <div className="container-1-sub py-4 px-7">
             <Breadcrumb links={breadcrumbLinks} />
           </div>
-          <div className="flex flex-col  justify-between lg:flex-row gap-3  px-3 lg:items-center my-3 z-0">
+          <div className="flex flex-col  justify-between lg:flex-row gap-3  px-3 lg:items-center my-3 ">
             <div className=" w-[500px] h-[450px] px-5 flex flex-col   lg:w-2/4 z-0">
               <img
-                src={activeImg}
-                alt=""
-                className=" w-full h-full  bg-white  object-cover  rounded-xl"
+                src={activeImage?.base64 || ""}
+                alt="activeImage"
+                className=" w-[500px] h-[370px]  bg-white bg-cover bg-center   rounded-xl"
               />
-              <div className="flex pt-4 flex-row justify-between h-24">
-                <img
-                  src={images.img1}
-                  alt=""
-                  className="w-24 h-24 rounded-md cursor-pointer"
-                  onClick={() => setActiveImage(images.img1)}
-                />
-                <img
-                  src={images.img2}
-                  alt=""
-                  className="w-24 h-24 rounded-md cursor-pointer"
-                  onClick={() => setActiveImage(images.img2)}
-                />
-                <img
-                  src={images.img3}
-                  alt=""
-                  className="w-24 h-24 rounded-md cursor-pointer"
-                  onClick={() => setActiveImage(images.img3)}
-                />
-                <img
-                  src={images.img4}
-                  alt=""
-                  className="w-24 h-24 rounded-md cursor-pointer"
-                  onClick={() => setActiveImage(images.img4)}
-                />
+              <div className="flex pt-4 flex-row justify-between  h-28">
+                {data?.sections1?.productImage.map((image, index) => (
+                  <img
+                    key={index}
+                    src={image.base64}
+                    alt={`Image ${index}`}
+                    className="w-24 h-24 rounded-md bg-transparent cursor-pointer"
+                    onClick={() => setValue(index)}
+                  />
+                ))}
               </div>
             </div>
             {/* ABOUT */}
-            <div className="flex flex-col w-[500px] h-[450px]  lg:w-2/4  gap-4">
+            <div className="flex flex-col w-[500px] h-[450px]  lg:w-2/4  gap-8 ">
               <div className="flex justify-between">
-                <h1 className="text-xl font-bold ">Nike Invincible 3</h1>
+                <h1 className="text-xl font-bold ">
+                  {data?.sections1?.productDetails?.productName || ""}
+                </h1>
                 <div className="flex px-7 gap-4">
                   <img
                     className="w-7 h-7"
@@ -154,28 +143,41 @@ function ViewProductPage() {
                   <img className="w-7 h-7" src={shareIcone} alt="shareIcon" />
                 </div>
               </div>
-              <span className="font-semibold text-blue-900">By</span>
+              {data?.sections1?.productDetails?.brandName ? (
+                <span className="font-semibold text-blue-900">
+                  By {data?.sections1?.productDetails?.brandName || ""}
+                </span>
+              ) : null}
+
               <p className="text-gray-700">
-                Con un'ammortizzazione incredibile per sostenerti in tutti i
-                tuoi chilometri, Invincible 3 offre un livello di comfort
-                elevatissimo sotto il piede per aiutarti a dare il massimo oggi,
+                {data?.sections1?.productDetails?.description1 || ""}
               </p>
               <h6 className="text-xl text-blue-900 font-semibold">
-                Price: ₹ / piece
+                Price: ₹ / {data?.sections2?.variantFields[0].mrpValue || ""}{" "}
+                piece
               </h6>
-              <h6 className="text-xl  font-semibold">Variation :</h6>
-              <div className="flex  items-center gap-6 pt-2">
-                <div className="items-center ">
-                  <span className="font-semibold ">Colours</span>
-                  <div className="w-52 h-24 bg-white shadow-md mt-1 rounded-md"></div>
-                </div>
-                <div className="items-center ">
-                  <span className="font-semibold ">Sizes</span>
-                  <div className="w-52 h-24 bg-white shadow-md mt-1 rounded-md"></div>
-                </div>
-              </div>
+
+              {data?.sections1?.variation ? (
+                <>
+                  <h6 className="text-xl  font-semibold">Variation :</h6>
+                  <div className="flex  items-center gap-6 pt-2">
+                    <div className="items-center ">
+                      <span className="font-semibold ">Colours</span>
+                      <div className="w-52 h-24 bg-white shadow-md mt-1 rounded-md"></div>
+                    </div>
+                    <div className="items-center ">
+                      <span className="font-semibold ">Sizes</span>
+                      <div className="w-52 h-24 bg-white shadow-md mt-1 rounded-md"></div>
+                    </div>
+                  </div>
+                </>
+              ) : null}
+
               <div className="pt-4 w-full ">
-                <button className="bg-blue-900 text-white font-semibold w-full py-3 px-16 rounded-md h-full">
+                <button
+                  onClick={() => setShowEnquirieModal(true)}
+                  className="bg-blue-900 text-white font-semibold w-full py-3 px-16 rounded-md h-full"
+                >
                   Send Enquiry
                 </button>
               </div>
@@ -435,12 +437,91 @@ function ViewProductPage() {
             </div>
           </div>
         </div>
-        <div className="container-2">
-          <div className="w-[350px] h-[350px] bg-white mt-5 rounded-2xl mx-5"></div>
-          <div className="w-[350px] h-[350px] bg-white mt-5 rounded-2xl mx-5"></div>
-          <div className="w-[350px] h-[350px] bg-white mt-5 rounded-2xl mx-5"></div>
+        <div className="container-2 ">
+          <div className="w-[360px] h-[330px] bg-white mt-5 rounded-2xl mx-5 ">
+            <div className="pt-5 px-5  bg-transparent ">
+              <p className="bg-transparent text-xl font-bold">
+                Company Deatils
+              </p>
+              <p className="font-semibold pt-3 bg-transparent">
+                Comapany Name:
+                <span className="font-normal ml-2 bg-transparent">
+                  {data?.companyId?.companyName}
+                </span>
+              </p>
+              <p className="font-semibold pt-3 bg-transparent">
+                Owner Name:
+                <span className="font-normal ml-2 bg-transparent">
+                  {data?.companyId?.OwnerName}
+                </span>
+              </p>
+              <p className="font-semibold pt-3 bg-transparent">
+                Place:
+                <span className="font-normal ml-2 bg-transparent">
+                  {data?.companyId?.state}
+                </span>
+              </p>
+              <p className="font-semibold pt-3 bg-transparent">
+                Year Established:
+                <span className="font-normal ml-2 bg-transparent">
+                  {data?.companyId?.yearOfRegister}
+                </span>
+              </p>
+              <p className="font-semibold pt-3 bg-transparent">
+                Business Registration Number:
+                <span className="font-normal ml-2 bg-transparent">
+                  {data?.companyId?.registrationNumber}
+                </span>
+              </p>
+              <p className="font-semibold pt-3 bg-transparent">
+                Business Type:
+                <span className="font-normal ml-2 bg-transparent">
+                  {data?.companyId?.businessType}
+                </span>
+              </p>
+              <p className="font-semibold pt-3 bg-transparent">
+                Total Employees:
+                <span className="font-normal ml-2 bg-transparent">
+                  {data?.companyId?.totalEmployees}
+                </span>
+              </p>
+            </div>
+          </div>
+
+          <div className="w-[350px]  min-h-[190px] bg-white  mt-5 rounded-2xl mx-5 relative">
+            <div className="absolute top-5 left-6  bg-transparent ">
+              <p className="bg-transparent text-xl  font-bold">
+                Contact Deatils
+              </p>
+              <p className="font-semibold pt-2 bg-transparent">
+                Email Address:
+                <span className="font-normal ml-2 bg-transparent">
+                  {data?.companyId?.companyEmail}
+                </span>
+              </p>
+              <p className="font-semibold pt-2 bg-transparent">
+                Contact Number:
+                <span className="font-normal ml-2 bg-transparent">
+                  {data?.companyId?.contactNumber}
+                </span>
+              </p>
+              <p className="font-semibold pt-2 bg-transparent">
+                Address:
+                <span className="font-normal ml-2 bg-transparent ">
+                  {data?.companyId?.address1} {data?.companyId?.address2},
+                  {data?.companyId?.city} {data?.companyId?.state},
+                  {data?.companyId?.country}
+                </span>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
+      <EnquiriesModal
+        onClose={handleOnClose}
+        visible={showEnquirieModal}
+        data={data}
+      />
     </>
   );
 }

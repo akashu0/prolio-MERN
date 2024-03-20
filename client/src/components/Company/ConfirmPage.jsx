@@ -10,6 +10,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { setRole } from "../../store/tokenSlice";
 
 function ConfirmPage({ onBack }) {
   const dispatch = useDispatch();
@@ -19,6 +20,8 @@ function ConfirmPage({ onBack }) {
   const formData = useSelector((state) => state.form.formData);
   const contactData = useSelector((state) => state.form.contactInfo);
   const documentData = useSelector((state) => state.form.documents);
+  const userId = useSelector((state) => state.token.userId);
+
   const [isLoading, setIsLoading] = useState(false);
 
   // console.log(contactData);
@@ -52,18 +55,19 @@ function ConfirmPage({ onBack }) {
         formData,
         contactData,
         documentData,
+        userId,
       };
       axios
         .post(`${apiURL}/admin/createNewCompany`, dataToSend)
         .then((res) => {
-          console.log(res);
           toast.success("Company Registered Successfully");
           setIsLoading(false);
           // Dispatch the reset action to clear Redux state
+          dispatch(setRole(res.data));
           dispatch(resetFormState());
           setTimeout(() => {
-            navigate("/");
-          }, 2000);
+            navigate("/admin");
+          }, 1000);
         })
         .catch((err) => {
           toast.error("Invalid Credentials");
@@ -76,7 +80,7 @@ function ConfirmPage({ onBack }) {
   };
 
   return (
-    <div className="flex justify-center items-center w-full h-full">
+    <div className="flex justify-center items-center w-full  h-full">
       <div className="w-4/5 h-screen rounded-xl bg-white mt-10">
         <div className="bg-white mt-5 px-5">
           <span className="text-blue-700 bg-white font-semibold">
@@ -246,7 +250,7 @@ function ConfirmPage({ onBack }) {
                 </button>
               )}
             </div>
-            <div>
+            <div className="bg-white">
               {isEditing2 ? (
                 <div className="mt-5 space-y-3">
                   <div className="flex justify-start items-center">
@@ -377,18 +381,18 @@ function ConfirmPage({ onBack }) {
         </div>
 
         {/* Document Uploaded section */}
-        <div className="w-full mx-10 mt-5 rounded-3xl">
-          <div className="pt-5 items-center">
-            <h1 className="text-blue-950 font-semibold px-6">
+        <div className="w-full mx-10 mt-5  rounded-3xl ">
+          <div className="pt-5 items-center ">
+            <h1 className="text-blue-900  font-semibold px-6">
               Document Uploaded
             </h1>
             {/* <div className="px-10 pt-5">
               <img src="" width="100px" height="100px" alt="Document" />
             </div> */}
-            <div className="w-auto h-auto flex">
+            <div className="w-auto  h-auto flex">
               {documentData.map((item, index) => (
                 <div
-                  className="flex flex-col justify-center border-black rounded border-2 border-dashed mt-5 w-52 h-44 items-center mx-5"
+                  className="flex flex-col justify-center  border-black rounded border-2 border-dashed mt-5 w-52 h-44 items-center mx-5"
                   key={index}
                 >
                   {item.base64 && (

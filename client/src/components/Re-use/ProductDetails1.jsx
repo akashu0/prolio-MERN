@@ -32,7 +32,7 @@ function productDetails1({ data }) {
       </div>
 
       <div className="w-full flex py-1 bg-white">
-        <span className="font-semibold text-left bg-white">
+        <span className="font-semibold text-left bg-white line-clamp-4">
           Description 1 :{" "}
           <span className="font-normal bg-white">
             {data?.productDetails?.description1 || ""}
@@ -112,7 +112,7 @@ function productDetails1({ data }) {
         <span className="font-semibold text-left bg-white">
           What kind of finishes it can make?:{" "}
           <span className="font-normal bg-white">
-            {data?.productDetails?.productfinish || ""}
+            {data?.productDetails?.productFinish || ""}
           </span>
         </span>
       </div>

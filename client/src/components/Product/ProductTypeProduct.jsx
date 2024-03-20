@@ -41,17 +41,77 @@ function ProductTypeProduct({ fields, print }) {
   // State for form field validation
   const [validationErrors, setValidationErrors] = useState({});
 
-  const handleProductImage = (e, index) => {
+  const handleProductImage = async (e, index) => {
     const file = e.target.files[0];
     const reader = new FileReader();
-    reader.onload = () => {
+
+    const formatBytes = (bytes, decimals = 2) => {
+      if (bytes === 0) return "0 Bytes";
+      const k = 1024;
+      const dm = decimals < 0 ? 0 : decimals;
+      const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+    };
+
+    reader.onload = async () => {
       const base64String = reader.result;
+      console.log(`Uploaded image size: ${formatBytes(base64String.length)}`);
+
+      const compressedBase64 = await compressImage(base64String); // Compress the image
+      console.log(
+        `Compressed image size: ${formatBytes(compressedBase64.length)}`
+      );
+
       const updatedDocuments = [...documents];
-      updatedDocuments[index] = { base64: base64String };
+      updatedDocuments[index] = { base64: compressedBase64 };
       dispatch(addProductImage(updatedDocuments));
     };
 
     reader.readAsDataURL(file);
+  };
+  const compressImage = async (base64String) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = base64String;
+
+      img.onload = () => {
+        const maxWidth = 800; // Set maximum width of the compressed image
+        const maxHeight = 600; // Set maximum height of the compressed image
+
+        let width = img.naturalWidth;
+        let height = img.naturalHeight;
+
+        if (width > maxWidth || height > maxHeight) {
+          const ratio = Math.min(maxWidth / width, maxHeight / height);
+          width *= ratio;
+          height *= ratio;
+        }
+
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = width;
+        canvas.height = height;
+
+        ctx.drawImage(img, 0, 0, width, height);
+
+        canvas.toBlob(
+          (blob) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onloadend = () => {
+              resolve(reader.result); // Resolve with the compressed base64 string
+            };
+          },
+          "image/jpeg",
+          0.7
+        ); // Set quality (0-1)
+      };
+
+      img.onerror = (error) => {
+        reject(error);
+      };
+    });
   };
 
   const handleDeleteProductImage = (index) => {
@@ -338,7 +398,7 @@ function ProductTypeProduct({ fields, print }) {
                     <span className="ml-2 bg-white">No</span>
                   </label>
                 </div>
-                {variation && <ProductVariation print={print}/>}
+                {variation && <ProductVariation print={print} />}
               </div>
             );
           case "productImage":
@@ -634,7 +694,6 @@ function ProductTypeProduct({ fields, print }) {
             {checkTrue()}
           </div>
         </div>
-       
       </div>
     </>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 function ProductConfirmPage({ onBack }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const productId = useSelector((state) => state.productId.productId);
   const [cardsData, setCardsData] = useState();
 
@@ -40,9 +41,10 @@ function ProductConfirmPage({ onBack }) {
           status,
         }
       );
+      dispatch(clearProductId());
       toast.success("Successfully Added Product");
       setTimeout(() => {
-        navigate("/");
+        navigate("/admin");
       }, 2000);
     } catch (error) {
       console.log(error.message);
@@ -85,7 +87,6 @@ function ProductConfirmPage({ onBack }) {
             </div>
           </div>
         </div>
-      
       </div>
 
       <div className="flex justify-between px-10 mt-5 bg-white">
